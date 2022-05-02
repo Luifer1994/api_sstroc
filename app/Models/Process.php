@@ -10,10 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 
 /**
- * Class EducationLevel
+ * Class Process
  *
  * @property int $id
  * @property string $name
@@ -23,10 +22,10 @@ use Illuminate\Notifications\Notifiable;
  *
  * @package App\Models
  */
-class EducationLevel extends Model
+class Process extends Model
 {
-	use SoftDeletes, HasFactory, Notifiable;
-	protected $table = 'education_levels';
+	use SoftDeletes, HasFactory;
+	protected $table = 'processes';
 
 	protected $fillable = [
 		'name'

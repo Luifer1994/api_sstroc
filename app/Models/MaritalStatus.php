@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * Class EducationLevel
+ * Class MaritalStatus
  *
  * @property int $id
  * @property string $name
@@ -23,10 +23,10 @@ use Illuminate\Notifications\Notifiable;
  *
  * @package App\Models
  */
-class EducationLevel extends Model
+class MaritalStatus extends Model
 {
 	use SoftDeletes, HasFactory, Notifiable;
-	protected $table = 'education_levels';
+	protected $table = 'marital_status';
 
 	protected $fillable = [
 		'name'

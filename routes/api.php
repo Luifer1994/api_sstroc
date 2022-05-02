@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Rutas protegidas
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    //User
+    Route::controller(UserController::class)->group(function () {
+        Route::get('user-logout', 'logout');
+        Route::post('user-register', 'store');
+        Route::get('user-list','index');
+    });
+});
+
+//Usuarios no protegidas
+Route::controller(UserController::class)->group(function () {
+    Route::post('user-login', 'login');
 });
