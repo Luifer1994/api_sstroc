@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('user-logout', 'logout');
         Route::post('user-register', 'store');
         Route::get('user-list','index');
+    });
+    //Employees
+    Route::controller(EmployeeController::class)->group(function () {
+        Route::post('employee-register', 'store');
+        Route::get('employee-list','index');
     });
 });
 
