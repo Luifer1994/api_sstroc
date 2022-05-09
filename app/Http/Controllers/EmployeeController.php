@@ -65,8 +65,13 @@ class EmployeeController extends Controller
 
     public function store_perfil(StorePerfilEmployee $request)
     {
-        $perfil = PerfilSociodemographic::create($request->all());
-        if ($perfil) {
+        $perfil = PerfilSociodemographic::where('employee_id', $request->employee_id)->first();
+        if (!$perfil) {
+            $perfil_store = PerfilSociodemographic::create($request->all());
+        } else {
+            $perfil_store = $perfil->fill($request->all())->save();
+        }
+        if ($perfil_store) {
             return response()->json([
                 'res' => true,
                 'message' => 'Registro exitoso',
