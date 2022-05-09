@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\StorePerfilEmployee;
 use App\Models\Employee;
+use App\Models\PerfilSociodemographic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +19,13 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $limit = $request["limit"] ?? $limit = 10;
+        //$users = Employee::with('gender', 'type_document')->get();
         $users = Employee::select(
             'employees.*',
             'type_documents.name as document_type',
             'genders.name as gender',
         )
+            //->with('perfil_sociodemographics')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')
             ->orderBy('employees.id', 'DESC')
@@ -59,15 +63,38 @@ class EmployeeController extends Controller
         }
     }
 
+    public function store_perfil(StorePerfilEmployee $request)
+    {
+        $perfil = PerfilSociodemographic::create($request->all());
+        if ($perfil) {
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $perfil,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar perfil',
+                'data' => null,
+            ], 400);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function show($id)
     {
-        //
+        $employee = Employee::find($id);
+        $employee["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
+        return response()->json([
+            'res' => true,
+            'data' => $employee
+        ]);
     }
 
     /**

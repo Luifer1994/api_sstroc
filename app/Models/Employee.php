@@ -7,10 +7,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Employee
@@ -33,12 +33,13 @@ use Illuminate\Notifications\Notifiable;
  * @property Gender $gender
  * @property TypeDocument $type_document
  * @property User $user
+ * @property Collection|PerfilSociodemographic[] $perfil_sociodemographics
  *
  * @package App\Models
  */
 class Employee extends Model
 {
-	use SoftDeletes, HasFactory, Notifiable;
+	use SoftDeletes, HasFactory;
 	protected $table = 'employees';
 
 	protected $casts = [
@@ -60,8 +61,7 @@ class Employee extends Model
 		'document_number',
 		'birth_date',
 		'gender_id',
-		'user_id',
-		'address'
+		'user_id'
 	];
 
 	public function gender()
@@ -77,5 +77,10 @@ class Employee extends Model
 	public function user()
 	{
 		return $this->belongsTo(User::class);
+	}
+
+	public function perfil_sociodemographics()
+	{
+		return $this->hasMany(PerfilSociodemographic::class);
 	}
 }

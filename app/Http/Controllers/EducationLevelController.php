@@ -14,7 +14,11 @@ class EducationLevelController extends Controller
      */
     public function index()
     {
-        //
+        $education_levels = EducationLevel::all();
+        return response()->json([
+            'res'=>true,
+            'data'=>$education_levels
+        ]);
     }
 
     /**

@@ -14,7 +14,11 @@ class SocialSecurityController extends Controller
      */
     public function index()
     {
-        //
+        $securities = SocialSecurity::all();
+        return response()->json([
+            'res'=>true,
+            'data'=>$securities
+        ]);
     }
 
     /**

@@ -14,7 +14,11 @@ class GenderController extends Controller
      */
     public function index()
     {
-        //
+        $genders = Gender::all();
+        return response()->json([
+            'res'=>true,
+            'data'=>$genders
+        ]);
     }
 
     /**

@@ -7,9 +7,13 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\EducationLevel;
 use App\Models\Gender;
+use App\Models\HousingType;
+use App\Models\Kindred;
 use App\Models\MaritalStatus;
 use App\Models\Position;
 use App\Models\RiskType;
+use App\Models\SocialSecurity;
+use App\Models\TypeContract;
 use App\Models\TypeDocument;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -31,7 +35,7 @@ class DatabaseSeeder extends Seeder
                 "name" => $rol
             ]);
         }
-        TypeDocument::factory(2)->create();
+        TypeDocument::factory(3)->create();
         Gender::factory(2)->create();
         Country::factory(1)->create();
         City::factory(3)->create();
@@ -40,6 +44,10 @@ class DatabaseSeeder extends Seeder
         RiskType::factory(3)->create();
         Position::factory(3)->create();
         Area::factory(3)->create();
+        HousingType::factory(3)->create();
+        Kindred::factory(4)->create();
+        SocialSecurity::factory(3)->create();
+        TypeContract::factory(3)->create();
         User::factory(1)->create();
     }
 }

@@ -33,8 +33,7 @@ class StoreEmployeeRequest extends FormRequest
             'document_number'   => 'required|max:12',
             'birth_date'        => 'required|date',
             'gender_id'         => 'required|exists:genders,id',
-            'email'             => 'required|email|unique:employees,email',
-            'address'           => 'required'
+            'email'             => 'required|email|unique:employees,email'
         ];
     }
 

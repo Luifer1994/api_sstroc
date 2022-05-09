@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SocialSecurity>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TypeContract>
  */
-class SocialSecurityFactory extends Factory
+class TypeContractFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class SocialSecurityFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['Mutual ser','Comparta','Sanitas']),
+            'name' => $this->faker->unique()->randomElement(['Fijo','Termino indefinido','Prestación de servicio']),
         ];
     }
 }

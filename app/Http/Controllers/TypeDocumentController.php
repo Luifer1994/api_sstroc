@@ -14,7 +14,11 @@ class TypeDocumentController extends Controller
      */
     public function index()
     {
-        //
+        $type_documents = TypeDocument::all();
+        return response()->json([
+            'res'=>true,
+            'data'=>$type_documents
+        ]);
     }
 
     /**

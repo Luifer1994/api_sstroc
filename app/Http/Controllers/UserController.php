@@ -69,4 +69,24 @@ class UserController extends Controller
             ], 400);
         }
     }
+    public function validateSesion()
+    {
+        if (Auth::check()) {
+            return true;
+        }
+    }
+
+    public function logout()
+    {
+        //Obtenemos usuario logeado
+        $user = Auth::user();
+        //Busca todos los token del usuario en la base de datos y los eliminamos;
+        $user->tokens->each(function ($token) {
+            $token->delete();
+        });
+        return response()->json([
+            'res' => true,
+            'message' => 'Hasta la proxima',
+        ], 200);
+    }
 }

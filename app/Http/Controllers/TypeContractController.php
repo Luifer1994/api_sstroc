@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
+use App\Models\TypeContract;
 use Illuminate\Http\Request;
 
-class CityController extends Controller
+class TypeContractController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,10 @@ class CityController extends Controller
      */
     public function index()
     {
-        $cities = City::all();
+        $type_contracts = TypeContract::all();
         return response()->json([
             'res'=>true,
-            'data'=>$cities
+            'data'=>$type_contracts
         ]);
     }
 
@@ -35,10 +35,10 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\City  $city
+     * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function show(City $city)
+    public function show(TypeContract $typeContract)
     {
         //
     }
@@ -47,10 +47,10 @@ class CityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\City  $city
+     * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(Request $request, TypeContract $typeContract)
     {
         //
     }
@@ -58,10 +58,10 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\City  $city
+     * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy(TypeContract $typeContract)
     {
         //
     }
