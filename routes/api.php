@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //City
     Route::controller(CityController::class)->group(function () {
         Route::get('city-list','index');
+        Route::post('city-register','store');
+        Route::put('city-update/{id}','update');
+        Route::get('city-detail/{id}','show');
     });
     //House types
     Route::controller(HousingTypeController::class)->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCityRequest;
 
 class CityController extends Controller
 {
@@ -27,9 +28,22 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
-        //
+        $city = City::create($request->all());
+        if(!empty($city)){
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $city,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar la ciudad',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -38,9 +52,20 @@ class CityController extends Controller
      * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function show(City $city)
+    public function show($id)
     {
-        //
+        $city = City::find($id);
+        if(!empty($city)){
+            return response()->json([
+                'res' => true,
+                'data' => $city
+            ]);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
@@ -50,9 +75,29 @@ class CityController extends Controller
      * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(StoreCityRequest $request, $id)
     {
-        //
+        $city = City::find($id);
+        if($city){
+            if($city->fill($request->all())->save()){
+                return response()->json([
+                    'res' => true,
+                    'data' => $city
+                ]);
+            }else{
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al registrar la Ciudad',
+                    'data' => null,
+                ], 400);
+            }
+
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
