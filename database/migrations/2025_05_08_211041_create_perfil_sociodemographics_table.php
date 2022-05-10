@@ -32,6 +32,9 @@ return new class extends Migration
             $table->float('average_income',15,2);
             $table->string('seniority_range',40);
             $table->foreignId('social_security_id')->constrained('social_securities');
+            $table->foreignId('marital_status_id')->constrained('marital_status');
+            $table->foreignId('arl_id')->constrained('arls');
+            $table->foreignId('pension_fund_id')->constrained('pension_funds');
             $table->timestamps();
         });
     }

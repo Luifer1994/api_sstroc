@@ -42,7 +42,10 @@ class StorePerfilEmployee extends FormRequest
             'contract_date'         => 'required|date',
             'average_income'        => 'required|numeric',
             'seniority_range'       => 'required',
-            'social_security_id'    => 'required|exists:social_securities,id'
+            'social_security_id'    => 'required|exists:social_securities,id',
+            'marital_status_id'     => 'required|exists:marital_status,id',
+            'arl_id'                => 'required|exists:arls,id',
+            'pension_fund_id'       => 'required|exists:pension_funds,id'
         ];
     }
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MaritalStatus;
+use App\Models\Poll;
 use Illuminate\Http\Request;
 
-class MaritalStatuController extends Controller
+class PollController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,7 @@ class MaritalStatuController extends Controller
      */
     public function index()
     {
-        $marital_status = MaritalStatus::all();
-        return response()->json([
-            'res'=>true,
-            'data'=>$marital_status
-        ]);
+        //
     }
 
     /**
@@ -35,10 +31,10 @@ class MaritalStatuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function show(MaritalStatu $maritalStatu)
+    public function show(Poll $poll)
     {
         //
     }
@@ -47,10 +43,10 @@ class MaritalStatuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaritalStatu $maritalStatu)
+    public function update(Request $request, Poll $poll)
     {
         //
     }
@@ -58,10 +54,10 @@ class MaritalStatuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaritalStatu $maritalStatu)
+    public function destroy(Poll $poll)
     {
         //
     }

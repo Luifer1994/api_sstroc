@@ -30,14 +30,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $average_income
  * @property string $seniority_range
  * @property int $social_security_id
+ * @property int $marital_status_id
+ * @property int $arl_id
+ * @property int $pension_fund_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Arl $arl
  * @property City $city
  * @property EducationLevel $education_level
  * @property Employee $employee
  * @property HousingType $housing_type
  * @property Kindred $kindred
+ * @property MaritalStatus $marital_status
+ * @property PensionFund $pension_fund
  * @property Position $position
  * @property SocialSecurity $social_security
  * @property TypeContract $type_contract
@@ -59,7 +65,10 @@ class PerfilSociodemographic extends Model
 		'position_id' => 'int',
 		'type_contract_id' => 'int',
 		'average_income' => 'float',
-		'social_security_id' => 'int'
+		'social_security_id' => 'int',
+		'marital_status_id' => 'int',
+		'arl_id' => 'int',
+		'pension_fund_id' => 'int'
 	];
 
 	protected $dates = [
@@ -83,8 +92,16 @@ class PerfilSociodemographic extends Model
 		'contract_date',
 		'average_income',
 		'seniority_range',
-		'social_security_id'
+		'social_security_id',
+		'marital_status_id',
+		'arl_id',
+		'pension_fund_id'
 	];
+
+	public function arl()
+	{
+		return $this->belongsTo(Arl::class);
+	}
 
 	public function city()
 	{
@@ -109,6 +126,16 @@ class PerfilSociodemographic extends Model
 	public function kindred()
 	{
 		return $this->belongsTo(Kindred::class);
+	}
+
+	public function marital_status()
+	{
+		return $this->belongsTo(MaritalStatus::class);
+	}
+
+	public function pension_fund()
+	{
+		return $this->belongsTo(PensionFund::class);
 	}
 
 	public function position()
