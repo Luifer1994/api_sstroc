@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MaritalStatus;
+use App\Models\PensionFund;
 use Illuminate\Http\Request;
 
-class MaritalStatuController extends Controller
+class PensionFundController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,10 @@ class MaritalStatuController extends Controller
      */
     public function index()
     {
-        $marital_status = MaritalStatus::all();
+        $pension_funds = PensionFund::all();
         return response()->json([
             'res'=>true,
-            'data'=>$marital_status
+            'data'=>$pension_funds
         ]);
     }
 
@@ -35,10 +35,10 @@ class MaritalStatuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\PensionFund  $pensionFund
      * @return \Illuminate\Http\Response
      */
-    public function show(MaritalStatu $maritalStatu)
+    public function show(PensionFund $pensionFund)
     {
         //
     }
@@ -47,10 +47,10 @@ class MaritalStatuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\PensionFund  $pensionFund
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaritalStatu $maritalStatu)
+    public function update(Request $request, PensionFund $pensionFund)
     {
         //
     }
@@ -58,10 +58,10 @@ class MaritalStatuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MaritalStatu  $maritalStatu
+     * @param  \App\Models\PensionFund  $pensionFund
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaritalStatu $maritalStatu)
+    public function destroy(PensionFund $pensionFund)
     {
         //
     }

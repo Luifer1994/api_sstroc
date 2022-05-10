@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\ArlController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\HousingTypeController;
 use App\Http\Controllers\KindredController;
+use App\Http\Controllers\MaritalStatuController;
+use App\Http\Controllers\PensionFundController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SocialSecurityController;
 use App\Http\Controllers\TypeContractController;
@@ -76,6 +79,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Social security
     Route::controller(SocialSecurityController::class)->group(function () {
         Route::get('social-security-list','index');
+    });
+    //Marital status
+    Route::controller(MaritalStatuController::class)->group(function () {
+        Route::get('marital-status-list','index');
+    });
+    //pension fund
+    Route::controller(PensionFundController::class)->group(function () {
+        Route::get('pension-fund-list','index');
+    });
+    //pension fund
+    Route::controller(ArlController::class)->group(function () {
+        Route::get('arl-list','index');
     });
 });
 
