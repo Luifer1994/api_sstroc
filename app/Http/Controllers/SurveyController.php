@@ -49,6 +49,7 @@ class SurveyController extends Controller
             foreach($survey->questions as $question){
                 if($question->required){
                     $question_data = self::toArrayFilter($question, [
+                        'id',
                         'title',
                         'description',
                         'order',
@@ -58,6 +59,7 @@ class SurveyController extends Controller
                     $question_data['multiple_responses'] = [];
                     foreach($question->responses as $response){
                         $response_data = self::toArrayFilter($response, [
+                            'id',
                             "indicator",
                             "text",
                             "response_true"
@@ -66,6 +68,7 @@ class SurveyController extends Controller
                         $question_next = $response->question;
                         if($question_next){
                             $response_data['question_next'] = self::toArrayFilter($question_next, [
+                                'id',
                                 'title',
                                 'description',
                                 'order',
@@ -91,6 +94,17 @@ class SurveyController extends Controller
             ]);
         }
 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function save_questions_survey(Request $request)
+    {
+        //
     }
 
     /**
