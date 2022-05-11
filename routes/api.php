@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArlController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GenderController;
@@ -58,6 +59,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('city-register','store');
         Route::put('city-update/{id}','update');
         Route::get('city-detail/{id}','show');
+    });
+    //Countries
+    Route::controller(CountryController::class)->group(function () {
+        Route::get('country-list','index');
+        Route::post('country-register','store');
+        Route::put('country-update/{id}','update');
+        Route::get('country-detail/{id}','show');
     });
     //House types
     Route::controller(HousingTypeController::class)->group(function () {

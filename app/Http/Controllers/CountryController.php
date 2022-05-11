@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\StoreCountryRequest;
 class CountryController extends Controller
 {
     /**
@@ -14,7 +14,11 @@ class CountryController extends Controller
      */
     public function index()
     {
-        //
+        $country = Country::all();
+        return response()->json([
+            'res'=>true,
+            'data'=>$country
+        ]);
     }
 
     /**
@@ -23,9 +27,22 @@ class CountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCountryRequest $request)
     {
-        //
+        $country = Country::create($request->all());
+        if(!empty($country)){
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $country,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar el pais',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -34,9 +51,20 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function show(Country $country)
+    public function show($id)
     {
-        //
+        $country = Country::find($id);
+        if(!empty($country)){
+            return response()->json([
+                'res' => true,
+                'data' => $country
+            ]);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
@@ -46,9 +74,29 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Country $country)
+    public function update(StoreCountryRequest $request, $id)
     {
-        //
+        $country = Country::find($id);
+        if($country){
+            if($country->fill($request->all())->save()){
+                return response()->json([
+                    'res' => true,
+                    'data' => $country
+                ]);
+            }else{
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al registrar el pais',
+                    'data' => null,
+                ], 400);
+            }
+
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
