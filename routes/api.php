@@ -15,6 +15,7 @@ use App\Http\Controllers\SocialSecurityController;
 use App\Http\Controllers\TypeContractController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -102,6 +103,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //pension fund
     Route::controller(ArlController::class)->group(function () {
         Route::get('arl-list','index');
+    });
+    //survey
+    Route::controller(SurveyController::class)->group(function () {
+        Route::get('survey-detail/{id}','show');
     });
 });
 
