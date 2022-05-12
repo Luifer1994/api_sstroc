@@ -114,7 +114,7 @@ class EmployeeController extends Controller
         $questions = $employee->questions;
         $questions_data = [];
         foreach ( $questions as $key => $question) {
-            $question_data ["question_title"] = $question->question;
+            $question_data ["question_title"] = $question->question['title'];
             $question_data ["question_response"] = !empty($question->response) ? $question->response :  $question->response;
         }
         return $questions_data;

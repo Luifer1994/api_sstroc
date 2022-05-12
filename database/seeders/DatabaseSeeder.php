@@ -205,15 +205,6 @@ class DatabaseSeeder extends Seeder
             "survey_id" => 1,
         ]);
 
-        DB::table('responses')->insert([
-            "id" => 9,
-            "indicator" => "a",
-            "text" => "SI",
-            "response_true" => false,
-            "question_id" => 7,
-            "question_next_id" => NULL,
-        ]);
-
                 DB::table('responses')->insert([
                     "id" => 9,
                     "indicator" => "a",

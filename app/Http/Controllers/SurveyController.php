@@ -134,8 +134,6 @@ class SurveyController extends Controller
                                     if ($this->add_employee_question($employee_response)) {
                                         continue;
                                     } else {
-                                        print_r($employee_response);
-
                                         DB::rollBack();
                                         return response()->json([
                                             'res' => false,
