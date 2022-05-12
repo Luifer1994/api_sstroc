@@ -95,12 +95,19 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::find($id);
-        $employee["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
-        $employee["survey"] = $this->get_employee_survey($employee);
-        return response()->json([
-            'res' => true,
-            'data' => $employee
-        ]);
+        if($employee){
+            $employee["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
+            $employee["survey"] = $this->get_employee_survey($employee);
+            return response()->json([
+                'res' => true,
+                'data' => $employee
+            ]);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     public function get_employee_survey( \App\Models\Employee $employee ){

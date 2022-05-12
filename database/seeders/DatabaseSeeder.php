@@ -65,35 +65,35 @@ class DatabaseSeeder extends Seeder
             "order" => 1,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
 
-            DB::table('questions')->insert([
-                "id" => 2,
-                "title" => "¿Cual?",
-                "order" => 2,
-                "required" => false,
-                "category" => "secundary",
-                "survey_id" => 1, 
-            ]);
+        DB::table('questions')->insert([
+            "id" => 2,
+            "title" => "¿Cual?",
+            "order" => 2,
+            "required" => false,
+            "category" => "secundary",
+            "survey_id" => 1,
+        ]);
 
-                DB::table('responses')->insert([
-                    "id" => 1,
-                    "indicator" => "a",
-                    "text" => "SI",
-                    "response_true" => false,
-                    "question_id" => 1,
-                    "question_next_id" => 2,
-                ]);
+        DB::table('responses')->insert([
+            "id" => 1,
+            "indicator" => "a",
+            "text" => "SI",
+            "response_true" => false,
+            "question_id" => 1,
+            "question_next_id" => 2,
+        ]);
 
-                DB::table('responses')->insert([
-                    "id" => 2,
-                    "indicator" => "b",
-                    "text" => "NO",
-                    "response_true" => false,
-                    "question_id" => 1,
-                    "question_next_id" => NULL,
-                ]);
+        DB::table('responses')->insert([
+            "id" => 2,
+            "indicator" => "b",
+            "text" => "NO",
+            "response_true" => false,
+            "question_id" => 1,
+            "question_next_id" => NULL,
+        ]);
 
         DB::table('questions')->insert([
             "id" => 3,
@@ -101,35 +101,35 @@ class DatabaseSeeder extends Seeder
             "order" => 3,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
 
-            DB::table('questions')->insert([
-                "id" => 4,
-                "title" => "Promedio diario",
-                "order" => 4,
-                "required" => false,
-                "category" => "secundary",
-                "survey_id" => 1, 
-            ]);
+        DB::table('questions')->insert([
+            "id" => 4,
+            "title" => "Promedio diario",
+            "order" => 4,
+            "required" => false,
+            "category" => "secundary",
+            "survey_id" => 1,
+        ]);
 
-                DB::table('responses')->insert([
-                    "id" => 3,
-                    "indicator" => "a",
-                    "text" => "SI",
-                    "response_true" => false,
-                    "question_id" => 3,
-                    "question_next_id" => 4,
-                ]);
+        DB::table('responses')->insert([
+            "id" => 3,
+            "indicator" => "a",
+            "text" => "SI",
+            "response_true" => false,
+            "question_id" => 3,
+            "question_next_id" => 4,
+        ]);
 
-                DB::table('responses')->insert([
-                    "id" => 4,
-                    "indicator" => "b",
-                    "text" => "NO",
-                    "response_true" => false,
-                    "question_id" => 3,
-                    "question_next_id" => NULL,
-                ]);
+        DB::table('responses')->insert([
+            "id" => 4,
+            "indicator" => "b",
+            "text" => "NO",
+            "response_true" => false,
+            "question_id" => 3,
+            "question_next_id" => NULL,
+        ]);
 
 
         DB::table('questions')->insert([
@@ -138,26 +138,26 @@ class DatabaseSeeder extends Seeder
             "order" => 5,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
 
-            DB::table('responses')->insert([
-                "id" => 5,
-                "indicator" => "a",
-                "text" => "SI",
-                "response_true" => false,
-                "question_id" => 5,
-                "question_next_id" => NULL,
-            ]);
+        DB::table('responses')->insert([
+            "id" => 5,
+            "indicator" => "a",
+            "text" => "SI",
+            "response_true" => false,
+            "question_id" => 5,
+            "question_next_id" => NULL,
+        ]);
 
-            DB::table('responses')->insert([
-                "id" => 6,
-                "indicator" => "b",
-                "text" => "NO",
-                "response_true" => false,
-                "question_id" => 5,
-                "question_next_id" => NULL,
-            ]);
+        DB::table('responses')->insert([
+            "id" => 6,
+            "indicator" => "b",
+            "text" => "NO",
+            "response_true" => false,
+            "question_id" => 5,
+            "question_next_id" => NULL,
+        ]);
 
         DB::table('questions')->insert([
             "id" => 6,
@@ -165,45 +165,54 @@ class DatabaseSeeder extends Seeder
             "order" => 6,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
 
-            DB::table('responses')->insert([
-                "id" => 7,
-                "indicator" => "a",
-                "text" => "SI",
-                "response_true" => false,
-                "question_id" => 6,
-                "question_next_id" => NULL,
-            ]);
+        DB::table('responses')->insert([
+            "id" => 7,
+            "indicator" => "a",
+            "text" => "SI",
+            "response_true" => false,
+            "question_id" => 6,
+            "question_next_id" => NULL,
+        ]);
 
-            DB::table('responses')->insert([
-                "id" => 8,
-                "indicator" => "b",
-                "text" => "NO",
-                "response_true" => false,
-                "question_id" => 6,
-                "question_next_id" => NULL,
-            ]);
+        DB::table('responses')->insert([
+            "id" => 8,
+            "indicator" => "b",
+            "text" => "NO",
+            "response_true" => false,
+            "question_id" => 6,
+            "question_next_id" => NULL,
+        ]);
 
-        
+
         DB::table('questions')->insert([
             "id" => 7,
             "title" => "medicamentos de control especial",
             "order" => 8,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
 
-            DB::table('questions')->insert([
-                "id" => 8,
-                "title" => "¿Cual?",
-                "order" => 9,
-                "required" => false,
-                "category" => "secundary",
-                "survey_id" => 1, 
-            ]);
+        DB::table('questions')->insert([
+            "id" => 8,
+            "title" => "¿Cual?",
+            "order" => 9,
+            "required" => false,
+            "category" => "secundary",
+            "survey_id" => 1,
+        ]);
+
+        DB::table('responses')->insert([
+            "id" => 9,
+            "indicator" => "a",
+            "text" => "SI",
+            "response_true" => false,
+            "question_id" => 7,
+            "question_next_id" => NULL,
+        ]);
 
                 DB::table('responses')->insert([
                     "id" => 9,
@@ -229,10 +238,7 @@ class DatabaseSeeder extends Seeder
             "order" => 10,
             "required" => true,
             "category" => "main",
-            "survey_id" => 1, 
+            "survey_id" => 1,
         ]);
-        
-
-        
     }
 }
