@@ -140,6 +140,7 @@ class SurveyController extends Controller
                                         return response()->json([
                                             'res' => false,
                                             'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
+                                            'question_id' => $question->id,
                                             'data' => null,
                                         ], 400);
                                     }
@@ -149,7 +150,8 @@ class SurveyController extends Controller
                                 DB::rollBack();
                                 return response()->json([
                                     'res' => false,
-                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
+                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida',
+                                    'question_id' => $question->id
                                 ]);
                             }
                         }
@@ -161,6 +163,7 @@ class SurveyController extends Controller
                                 return response()->json([
                                     'res' => false,
                                     'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
+                                    'question_id' => $question->id,
                                     'data' => null,
                                 ], 400);
                             }
@@ -168,7 +171,8 @@ class SurveyController extends Controller
                             DB::rollBack();
                             return response()->json([
                                 'res' => false,
-                                'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
+                                'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida',
+                                'question_id' => $question->id
                             ]);
                         }
                         

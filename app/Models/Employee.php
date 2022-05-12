@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Employee
- *
+ * 
  * @property int $id
  * @property string $name
  * @property string $last_name
@@ -29,10 +29,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
+ * 
  * @property Gender $gender
  * @property TypeDocument $type_document
  * @property User $user
+ * @property Collection|Question[] $questions
  * @property Collection|PerfilSociodemographic[] $perfil_sociodemographics
  *
  * @package App\Models
@@ -77,6 +78,13 @@ class Employee extends Model
 	public function user()
 	{
 		return $this->belongsTo(User::class);
+	}
+
+	public function questions()
+	{
+		return $this->belongsToMany(Question::class, 'employees_has_questions')
+					->withPivot('response', 'response_id', 'deleted_at')
+					->withTimestamps();
 	}
 
 	public function perfil_sociodemographics()

@@ -211,7 +211,7 @@ class DatabaseSeeder extends Seeder
                     "text" => "SI",
                     "response_true" => false,
                     "question_id" => 7,
-                    "question_next_id" => NULL,
+                    "question_next_id" => 8,
                 ]);
 
                 DB::table('responses')->insert([
@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
                     "indicator" => "b",
                     "text" => "NO",
                     "response_true" => false,
-                    "question_id" => 8,
+                    "question_id" => 7,
                     "question_next_id" => NULL,
                 ]);
 

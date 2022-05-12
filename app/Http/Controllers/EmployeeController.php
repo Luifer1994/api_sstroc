@@ -96,10 +96,21 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employee["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
+        $employee["survey"] = $this->get_employee_survey($employee);
         return response()->json([
             'res' => true,
             'data' => $employee
         ]);
+    }
+
+    public function get_employee_survey( \App\Models\Employee $employee ){
+        $questions = $employee->questions;
+        $questions_data = [];
+        foreach ( $questions as $key => $question) {
+            $question_data ["question_title"] = $question->question;
+            $question_data ["question_response"] = !empty($question->response) ? $question->response :  $question->response;
+        }
+        return $questions_data;
     }
 
     /**
