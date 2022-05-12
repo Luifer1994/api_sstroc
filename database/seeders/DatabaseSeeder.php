@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('questions')->insert([
             "id" => 1,
-            "title" => "¿ha sido diagnosticado con alguna enfermedad?",
+            "title" => "¿Ha sido diagnosticado con alguna enfermedad?",
             "order" => 1,
             "required" => true,
             "category" => "main",
@@ -134,7 +134,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('questions')->insert([
             "id" => 5,
-            "title" => "consumo de bebidas alcohólicas",
+            "title" => "¿Consumes bebidas alcohólicas?",
             "order" => 5,
             "required" => true,
             "category" => "main",
@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('questions')->insert([
             "id" => 6,
-            "title" => "consumo de sustancia psicoactivas",
+            "title" => "¿Consumes sustancia psicoactivas?",
             "order" => 6,
             "required" => true,
             "category" => "main",
@@ -189,7 +189,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('questions')->insert([
             "id" => 7,
-            "title" => "medicamentos de control especial",
+            "title" => "¿Consumes medicamentos de control especial?",
             "order" => 8,
             "required" => true,
             "category" => "main",

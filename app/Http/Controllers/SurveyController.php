@@ -107,6 +107,14 @@ class SurveyController extends Controller
      */
     public function save_questions_survey(Request  $request, $survey_id)
     {
+        $survey_has_employees = EmployeesHasQuestion::where('employee_id', $request->employee_id)->first();
+
+        if ($survey_has_employees) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Este empleado ya resolvio esta encuesta'
+            ], 400);
+        }
         if (!empty($request->responses)) {
             $request_data = $request->all();
             $employee_responses = $request_data['responses'];
@@ -137,7 +145,7 @@ class SurveyController extends Controller
                                         DB::rollBack();
                                         return response()->json([
                                             'res' => false,
-                                            'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title . ' ' . $question->id,
+                                            'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
                                             'data' => null,
                                         ], 400);
                                     }
@@ -146,7 +154,7 @@ class SurveyController extends Controller
                                 DB::rollBack();
                                 return response()->json([
                                     'res' => false,
-                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' ' . $question->id . ' es requerida'
+                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
                                 ], 400);
                             }
                         }
@@ -157,7 +165,7 @@ class SurveyController extends Controller
                                 DB::rollBack();
                                 return response()->json([
                                     'res' => false,
-                                    'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title . ' ' . $question->id,
+                                    'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
                                     'data' => null,
                                 ], 400);
                             }
@@ -165,7 +173,7 @@ class SurveyController extends Controller
                             DB::rollBack();
                             return response()->json([
                                 'res' => false,
-                                'message' => 'La respuesta la pregunta: ' . $question->title . ' ' . $question->id . ' es requerida'
+                                'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
                             ], 400);
                         }
                     }
