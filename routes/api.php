@@ -107,6 +107,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //survey
     Route::controller(SurveyController::class)->group(function () {
         Route::get('survey-detail/{id}','show');
+        Route::post('survey/{id}/add-responses','save_questions_survey');
     });
 });
 
