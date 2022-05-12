@@ -53,7 +53,7 @@ class EmployeesHasQuestion extends Model
 		return $this->belongsTo(Question::class);
 	}
 
-	public function response()
+	public function responseModel()
 	{
 		return $this->belongsTo(Response::class);
 	}

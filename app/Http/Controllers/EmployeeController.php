@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\StorePerfilEmployee;
 use App\Models\Employee;
+use App\Models\Response;
 use App\Models\PerfilSociodemographic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,11 +97,12 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         if($employee){
-            $employee["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
-            $employee["survey"] = $this->get_employee_survey($employee);
+            $employee_data = $employee->toArray();
+            $employee_data["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
+            $employee_data["survey"] = $this->get_employee_survey($employee);
             return response()->json([
                 'res' => true,
-                'data' => $employee
+                'data' => $employee_data
             ]);
         }else{
             return response()->json([
@@ -114,8 +116,9 @@ class EmployeeController extends Controller
         $questions = $employee->questions;
         $questions_data = [];
         foreach ( $questions as $key => $question) {
-            $question_data ["question_title"] = $question->question['title'];
-            $question_data ["question_response"] = !empty($question->response) ? $question->response :  $question->response;
+            $question_data ["question_title"] = $question->title;
+            $question_data ["question_response"] = !empty($question->pivot->response) ? $question->pivot->response :  Response::find($question->pivot->response_id)->text;
+            $questions_data [] = $question_data; 
         }
         return $questions_data;
     }
