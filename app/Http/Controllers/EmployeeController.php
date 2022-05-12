@@ -103,12 +103,12 @@ class EmployeeController extends Controller
             return response()->json([
                 'res' => true,
                 'data' => $employee_data
-            ]);
+            ],200);
         }else{
             return response()->json([
                 'res' => false,
                 'message' => 'Not found'
-            ]);
+            ],400);
         }
     }
 
@@ -118,7 +118,7 @@ class EmployeeController extends Controller
         foreach ( $questions as $key => $question) {
             $question_data ["question_title"] = $question->title;
             $question_data ["question_response"] = !empty($question->pivot->response) ? $question->pivot->response :  Response::find($question->pivot->response_id)->text;
-            $questions_data [] = $question_data; 
+            $questions_data [] = $question_data;
         }
         return $questions_data;
     }
