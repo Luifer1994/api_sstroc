@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 class SurveyController extends Controller
 {
 
-    function toArrayFilter( $model, array $filterArray ){
-        return array_intersect_key( $model->toArray(), array_flip( $filterArray ) );
+    function toArrayFilter($model, array $filterArray)
+    {
+        return array_intersect_key($model->toArray(), array_flip($filterArray));
     }
     /**
      * Display a listing of the resource.
@@ -43,14 +44,14 @@ class SurveyController extends Controller
      */
     public function show($id)
     {
-        $survey_data = []; 
+        $survey_data = [];
         $survey = Survey::find($id);
-        if($survey){
+        if ($survey) {
             $survey_data['id'] = $survey->id;
             $survey_data['title'] = $survey->title;
             $survey_data['description'] = $survey->description;
-            foreach($survey->questions as $question){
-                if($question->required){
+            foreach ($survey->questions as $question) {
+                if ($question->required) {
                     $question_data = self::toArrayFilter($question, [
                         'id',
                         'title',
@@ -60,7 +61,7 @@ class SurveyController extends Controller
                         'category'
                     ]);
                     $question_data['multiple_responses'] = [];
-                    foreach($question->responses as $response){
+                    foreach ($question->responses as $response) {
                         $response_data = self::toArrayFilter($response, [
                             'id',
                             "indicator",
@@ -69,7 +70,7 @@ class SurveyController extends Controller
                         ]);
                         $response_data['question_next'] = null;
                         $question_next = $response->question;
-                        if($question_next){
+                        if ($question_next) {
                             $response_data['question_next'] = self::toArrayFilter($question_next, [
                                 'id',
                                 'title',
@@ -85,18 +86,17 @@ class SurveyController extends Controller
                 }
             }
         }
-        if(!empty($survey_data)){
+        if (!empty($survey_data)) {
             return response()->json([
                 'res' => true,
                 'data' => $survey_data
             ]);
-        }else{
+        } else {
             return response()->json([
                 'res' => false,
                 'message' => 'Not found'
             ]);
         }
-
     }
 
     /**
@@ -105,73 +105,71 @@ class SurveyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function save_questions_survey( Request  $request, $survey_id)
+    public function save_questions_survey(Request  $request, $survey_id)
     {
-        if(!empty($request->responses)){
+        if (!empty($request->responses)) {
             $request_data = $request->all();
             $employee_responses = $request_data['responses'];
             $survey = Survey::find($survey_id);
-            if($survey){
+            if ($survey) {
                 DB::beginTransaction();
-                foreach($survey->questions as $question){
-                    $key_response = array_search( $question->id, array_column($employee_responses, 'question_id'));
-                    if($question->required && !is_numeric($key_response) ){ 
+                foreach ($survey->questions as $question) {
+                    $key_response = array_search($question->id, array_column($employee_responses, 'question_id'));
+                    if ($question->required && !is_numeric($key_response)) {
                         return response()->json([
                             'res' => false,
                             'message' => 'La pregunta :' . $question->title . ' es requerida',
                             'question_id' => $question->id
                         ]);
                     }
-                    if(is_numeric($key_response)){
+                    if (is_numeric($key_response)) {
                         $employee_response = $employee_responses[$key_response];
                         $employee_response['employee_id'] = $request_data['employee_id'];
                         $question_responses = $question->responses->all();
-                        if($question_responses){
-                            if(!empty($employee_response['response_id'])){
-                                $key_question_response = array_search($employee_response['response_id'], array_column($question_responses, 'id') );
-                                if(is_numeric($key_question_response)){
-                                    
-                                    if($this->add_employee_question($employee_response)){
+                        if ($question_responses) {
+                            if (!empty($employee_response['response_id'])) {
+                                $key_question_response = array_search($employee_response['response_id'], array_column($question_responses, 'id'));
+                                if (is_numeric($key_question_response)) {
+
+                                    if ($this->add_employee_question($employee_response)) {
                                         continue;
-                                    }else{
+                                    } else {
                                         print_r($employee_response);
-                                    
+
                                         DB::rollBack();
                                         return response()->json([
                                             'res' => false,
-                                            'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
+                                            'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title . ' ' . $question->id,
                                             'data' => null,
                                         ], 400);
                                     }
                                 }
-
-                            }else{
+                            } else {
                                 DB::rollBack();
                                 return response()->json([
                                     'res' => false,
-                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
-                                ]);
+                                    'message' => 'La respuesta la pregunta: ' . $question->title . ' ' . $question->id . ' es requerida'
+                                ], 400);
                             }
                         }
-                        if(!empty($employee_response['response'])){
-                            if($this->add_employee_question($employee_response)){
+                        if (!empty($employee_response['response'])) {
+                            if ($this->add_employee_question($employee_response)) {
                                 continue;
-                            }else{
+                            } else {
                                 DB::rollBack();
                                 return response()->json([
                                     'res' => false,
-                                    'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title,
+                                    'message' => 'Error al registrar la respuesta a la pregunta: ' . $question->title . ' ' . $question->id,
                                     'data' => null,
                                 ], 400);
                             }
-                        }else{
+                        } else {
                             DB::rollBack();
                             return response()->json([
                                 'res' => false,
-                                'message' => 'La respuesta la pregunta: ' . $question->title . ' es requerida'
-                            ]);
+                                'message' => 'La respuesta la pregunta: ' . $question->title . ' ' . $question->id . ' es requerida'
+                            ], 400);
                         }
-                        
                     }
                 }
                 DB::commit();
@@ -189,12 +187,13 @@ class SurveyController extends Controller
         ]);
     }
 
-    public function add_employee_question( array $data):bool{
+    public function add_employee_question(array $data): bool
+    {
         $question  = new EmployeesHasQuestion();
         $question->employee_id = $data['employee_id'];
         $question->question_id = $data['question_id'];
-        $question->response = $data['response']??null;
-        $question->response_id = $data['response_id']??null;
+        $question->response = $data['response'] ?? null;
+        $question->response_id = $data['response_id'] ?? null;
         return  $question->save();
     }
 
