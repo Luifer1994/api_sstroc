@@ -113,7 +113,7 @@ class EmployeeController extends Controller
             $employee_data = $employee->toArray();
             $employee_data["perfil_sociodemographics"] = [];
             foreach($employee->perfil_sociodemographics as $perfil_sociodemographic){
-                $perfil_sociodemographic_data = self::toArrayFilter($perfil_sociodemographic, ['address','contact_emergency','phone_contact','dependents','number_of_children','use_free_time','contract_date','average_income','seniority_range'] ); 
+                $perfil_sociodemographic_data = self::toArrayFilter($perfil_sociodemographic, ['address','contact_emergency','phone_contact','dependents','number_of_children','use_free_time','contract_date','average_income','seniority_range'] );
                 $perfil_sociodemographic_data['city_name'] = $perfil_sociodemographic->city->name;
                 $perfil_sociodemographic_data['education_level_name'] = $perfil_sociodemographic->education_level->name;
                 $perfil_sociodemographic_data['housing_type_name'] = $perfil_sociodemographic->housing_type->name;
@@ -122,6 +122,8 @@ class EmployeeController extends Controller
                 $perfil_sociodemographic_data['position_name'] = $perfil_sociodemographic->position->name;
                 $perfil_sociodemographic_data['social_security_name'] = $perfil_sociodemographic->social_security->name;
                 $perfil_sociodemographic_data['type_contract_name'] = $perfil_sociodemographic->type_contract->name;
+                $perfil_sociodemographic_data['arl_name'] = $perfil_sociodemographic->arl->name;
+                $perfil_sociodemographic_data['pension_fund_name'] = $perfil_sociodemographic->pension_fund->name;
                 $employee_data["perfil_sociodemographics"] []   = $perfil_sociodemographic_data;
             }
             $employee_data["survey"] = $this->get_employee_survey($employee);
@@ -146,6 +148,26 @@ class EmployeeController extends Controller
             $questions_data [] = $question_data;
         }
         return $questions_data;
+    }
+
+
+    public function show_perfil($id)
+    {
+        $employee = Employee::find($id);
+        if($employee){
+            $employee_data = $employee->toArray();
+            $employee_data["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
+            $employee_data["survey"] = $this->get_employee_survey($employee);
+            return response()->json([
+                'res' => true,
+                'data' => $employee_data
+            ]);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**

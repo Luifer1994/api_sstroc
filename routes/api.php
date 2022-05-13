@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('employee-register-perfil', 'store_perfil');
         Route::get('employee-list','index');
         Route::get('employee-detail/{id}','show');
+        Route::get('employee-detail-perfil/{id}','show_perfil');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {
