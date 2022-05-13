@@ -188,8 +188,28 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        //
+        $employee = Employee::find($id);
+        if($employee){
+            if($employee->delete()){
+                return response()->json([
+                    'res' => true,
+                    'data' => null
+                ],200);
+            }else{
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al borrar el empleado'
+                ],400);
+            }
+        }else{
+            
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Not found'
+                ],200);
+            
+        }
     }
 }

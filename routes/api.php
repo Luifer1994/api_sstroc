@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('employee-list','index');
         Route::get('employee-detail/{id}','show');
         Route::get('employee-detail-perfil/{id}','show_perfil');
+        Route::delete('employee-delete/{id}','destroy');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {
