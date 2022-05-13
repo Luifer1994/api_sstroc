@@ -95,10 +95,18 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::select(
+            'employees.*',
+            'type_documents.name as document_type',
+            'genders.name as gender',
+        )
+            ->where('employees.id', $id)
+            ->with('perfil_sociodemographics')
+            ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
+            ->join('genders', 'genders.id', '=', 'employees.gender_id')
+            ->first();
         if($employee){
             $employee_data = $employee->toArray();
-            $employee_data["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
             $employee_data["survey"] = $this->get_employee_survey($employee);
             return response()->json([
                 'res' => true,
