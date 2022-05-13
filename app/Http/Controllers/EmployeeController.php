@@ -87,6 +87,11 @@ class EmployeeController extends Controller
         }
     }
 
+    function toArrayFilter($model, array $filterArray)
+    {
+        return array_intersect_key($model->toArray(), array_flip($filterArray));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -107,6 +112,19 @@ class EmployeeController extends Controller
             ->first();
         if($employee){
             $employee_data = $employee->toArray();
+            $employee_data["perfil_sociodemographics"] = [];
+            foreach($employee->perfil_sociodemographics as $perfil_sociodemographic){
+                $perfil_sociodemographic_data = self::toArrayFilter($perfil_sociodemographic, ['address','contact_emergency','phone_contact','dependents','number_of_children','use_free_time','contract_date','average_income','seniority_range'] ); 
+                $perfil_sociodemographic_data['city_name'] = $perfil_sociodemographic->city->name;
+                $perfil_sociodemographic_data['education_level_name'] = $perfil_sociodemographic->education_level->name;
+                $perfil_sociodemographic_data['housing_type_name'] = $perfil_sociodemographic->housing_type->name;
+                $perfil_sociodemographic_data['kindred_name'] = $perfil_sociodemographic->kindred->name;
+                $perfil_sociodemographic_data['marital_status_name'] = $perfil_sociodemographic->marital_status->name;
+                $perfil_sociodemographic_data['position_name'] = $perfil_sociodemographic->position->name;
+                $perfil_sociodemographic_data['social_security_name'] = $perfil_sociodemographic->social_security->name;
+                $perfil_sociodemographic_data['type_contract_name'] = $perfil_sociodemographic->type_contract->name;
+                $employee_data["perfil_sociodemographics"] []   = $perfil_sociodemographic_data;
+            }
             $employee_data["survey"] = $this->get_employee_survey($employee);
             return response()->json([
                 'res' => true,
