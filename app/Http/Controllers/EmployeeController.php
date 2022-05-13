@@ -20,13 +20,12 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $limit = $request["limit"] ?? $limit = 10;
-        //$users = Employee::with('gender', 'type_document')->get();
         $users = Employee::select(
             'employees.*',
             'type_documents.name as document_type',
             'genders.name as gender',
         )
-            //->with('perfil_sociodemographics')
+            ->withCount('questions')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')
             ->orderBy('employees.id', 'DESC')
