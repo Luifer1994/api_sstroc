@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\StorePerfilEmployee;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Response;
 use App\Models\PerfilSociodemographic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -102,18 +105,20 @@ class EmployeeController extends Controller
         $employee = Employee::select(
             'employees.*',
             'type_documents.name as document_type',
-            'genders.name as gender',
+            'genders.name as gender'
         )
+
             ->where('employees.id', $id)
+           //->select(DB::raw('DATE_FORMAT(employees.birth_date, "%Y/%m/%d") as birth_dates'))
             ->with('perfil_sociodemographics')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')
             ->first();
-        if($employee){
+        if ($employee) {
             $employee_data = $employee->toArray();
             $employee_data["perfil_sociodemographics"] = [];
-            foreach($employee->perfil_sociodemographics as $perfil_sociodemographic){
-                $perfil_sociodemographic_data = self::toArrayFilter($perfil_sociodemographic, ['address','contact_emergency','phone_contact','dependents','number_of_children','use_free_time','contract_date','average_income','seniority_range'] );
+            foreach ($employee->perfil_sociodemographics as $perfil_sociodemographic) {
+                $perfil_sociodemographic_data = self::toArrayFilter($perfil_sociodemographic, ['address', 'contact_emergency', 'phone_contact', 'dependents', 'number_of_children', 'use_free_time', 'contract_date', 'average_income', 'seniority_range']);
                 $perfil_sociodemographic_data['city_name'] = $perfil_sociodemographic->city->name;
                 $perfil_sociodemographic_data['education_level_name'] = $perfil_sociodemographic->education_level->name;
                 $perfil_sociodemographic_data['housing_type_name'] = $perfil_sociodemographic->housing_type->name;
@@ -124,28 +129,29 @@ class EmployeeController extends Controller
                 $perfil_sociodemographic_data['type_contract_name'] = $perfil_sociodemographic->type_contract->name;
                 $perfil_sociodemographic_data['arl_name'] = $perfil_sociodemographic->arl->name;
                 $perfil_sociodemographic_data['pension_fund_name'] = $perfil_sociodemographic->pension_fund->name;
-                $employee_data["perfil_sociodemographics"] []   = $perfil_sociodemographic_data;
+                $employee_data["perfil_sociodemographics"][]   = $perfil_sociodemographic_data;
             }
             $employee_data["survey"] = $this->get_employee_survey($employee);
             return response()->json([
                 'res' => true,
                 'data' => $employee_data
-            ],200);
-        }else{
+            ], 200);
+        } else {
             return response()->json([
                 'res' => false,
                 'message' => 'Not found'
-            ],400);
+            ], 400);
         }
     }
 
-    public function get_employee_survey( \App\Models\Employee $employee ){
+    public function get_employee_survey(\App\Models\Employee $employee)
+    {
         $questions = $employee->questions;
         $questions_data = [];
-        foreach ( $questions as $key => $question) {
-            $question_data ["question_title"] = $question->title;
-            $question_data ["question_response"] = !empty($question->pivot->response) ? $question->pivot->response :  Response::find($question->pivot->response_id)->text;
-            $questions_data [] = $question_data;
+        foreach ($questions as $key => $question) {
+            $question_data["question_title"] = $question->title;
+            $question_data["question_response"] = !empty($question->pivot->response) ? $question->pivot->response :  Response::find($question->pivot->response_id)->text;
+            $questions_data[] = $question_data;
         }
         return $questions_data;
     }
@@ -154,7 +160,7 @@ class EmployeeController extends Controller
     public function show_perfil($id)
     {
         $employee = Employee::find($id);
-        if($employee){
+        if ($employee) {
             $employee_data = $employee->toArray();
             $employee_data["perfil_sociodemographics"] = $employee->perfil_sociodemographics;
             $employee_data["survey"] = $this->get_employee_survey($employee);
@@ -162,7 +168,7 @@ class EmployeeController extends Controller
                 'res' => true,
                 'data' => $employee_data
             ]);
-        }else{
+        } else {
             return response()->json([
                 'res' => false,
                 'message' => 'Not found'
@@ -177,9 +183,36 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, $id)
     {
-        //
+        $employee = Employee::find($id);
+        if ($employee) {
+            $rules = [
+                'email'         => 'required|email|unique:employees,email,' . $employee->id . ',id',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            if ($employee->update($request->all())) {
+                return response()->json([
+                    'res' => true,
+                    'message' => 'Actualización exitosa',
+                    'data' => $employee
+                ], 200);
+            } else {
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al actualizar el empleado'
+                ], 400);
+            }
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'El empleadono existe'
+            ], 400);
+        }
     }
 
     /**
@@ -191,25 +224,24 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         $employee = Employee::find($id);
-        if($employee){
-            if($employee->delete()){
+        if ($employee) {
+            if ($employee->delete()) {
                 return response()->json([
                     'res' => true,
                     'data' => null
-                ],200);
-            }else{
+                ], 200);
+            } else {
                 return response()->json([
                     'res' => false,
                     'message' => 'Error al borrar el empleado'
-                ],400);
+                ], 400);
             }
-        }else{
-            
-                return response()->json([
-                    'res' => false,
-                    'message' => 'Not found'
-                ],200);
-            
+        } else {
+
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ], 200);
         }
     }
 }

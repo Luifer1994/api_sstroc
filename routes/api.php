@@ -11,6 +11,7 @@ use App\Http\Controllers\KindredController;
 use App\Http\Controllers\MaritalStatuController;
 use App\Http\Controllers\PensionFundController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RolController;
 use App\Http\Controllers\SocialSecurityController;
 use App\Http\Controllers\TypeContractController;
 use App\Http\Controllers\TypeDocumentController;
@@ -36,80 +37,85 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('user-logout', 'logout');
         Route::post('user-register', 'store');
-        Route::get('user-list','index');
+        Route::get('user-list', 'index');
         Route::get('validate-sesion', 'validateSesion');
     });
     //Employees
     Route::controller(EmployeeController::class)->group(function () {
         Route::post('employee-register', 'store');
         Route::post('employee-register-perfil', 'store_perfil');
-        Route::get('employee-list','index');
-        Route::get('employee-detail/{id}','show');
-        Route::get('employee-detail-perfil/{id}','show_perfil');
-        Route::delete('employee-delete/{id}','destroy');
+        Route::get('employee-list', 'index');
+        Route::get('employee-detail/{id}', 'show');
+        Route::get('employee-detail-perfil/{id}', 'show_perfil');
+        Route::delete('employee-delete/{id}', 'destroy');
+        Route::put('employee-update/{id}', 'update');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {
-        Route::get('document-type-list','index');
+        Route::get('document-type-list', 'index');
+    });
+    //Document type
+    Route::controller(RolController::class)->group(function () {
+        Route::get('rol-list', 'index');
     });
     //Document type
     Route::controller(GenderController::class)->group(function () {
-        Route::get('gender-list','index');
+        Route::get('gender-list', 'index');
     });
     //City
     Route::controller(CityController::class)->group(function () {
-        Route::get('city-list','index');
-        Route::post('city-register','store');
-        Route::put('city-update/{id}','update');
-        Route::get('city-detail/{id}','show');
+        Route::get('city-list', 'index');
+        Route::post('city-register', 'store');
+        Route::put('city-update/{id}', 'update');
+        Route::get('city-detail/{id}', 'show');
     });
     //Countries
     Route::controller(CountryController::class)->group(function () {
-        Route::get('country-list','index');
-        Route::post('country-register','store');
-        Route::put('country-update/{id}','update');
-        Route::get('country-detail/{id}','show');
+        Route::get('country-list', 'index');
+        Route::post('country-register', 'store');
+        Route::put('country-update/{id}', 'update');
+        Route::get('country-detail/{id}', 'show');
     });
     //House types
     Route::controller(HousingTypeController::class)->group(function () {
-        Route::get('housing-types-list','index');
+        Route::get('housing-types-list', 'index');
     });
     //Kindre
     Route::controller(KindredController::class)->group(function () {
-        Route::get('kindred-list','index');
+        Route::get('kindred-list', 'index');
     });
     //Educatio level
     Route::controller(EducationLevelController::class)->group(function () {
-        Route::get('education-level-list','index');
+        Route::get('education-level-list', 'index');
     });
     //position
     Route::controller(PositionController::class)->group(function () {
-        Route::get('position-list','index');
+        Route::get('position-list', 'index');
     });
     //type contract
     Route::controller(TypeContractController::class)->group(function () {
-        Route::get('type-contract-list','index');
+        Route::get('type-contract-list', 'index');
     });
     //Social security
     Route::controller(SocialSecurityController::class)->group(function () {
-        Route::get('social-security-list','index');
+        Route::get('social-security-list', 'index');
     });
     //Marital status
     Route::controller(MaritalStatuController::class)->group(function () {
-        Route::get('marital-status-list','index');
+        Route::get('marital-status-list', 'index');
     });
     //pension fund
     Route::controller(PensionFundController::class)->group(function () {
-        Route::get('pension-fund-list','index');
+        Route::get('pension-fund-list', 'index');
     });
     //pension fund
     Route::controller(ArlController::class)->group(function () {
-        Route::get('arl-list','index');
+        Route::get('arl-list', 'index');
     });
     //survey
     Route::controller(SurveyController::class)->group(function () {
-        Route::get('survey-detail/{id}','show');
-        Route::post('survey/{id}/add-responses','save_questions_survey');
+        Route::get('survey-detail/{id}', 'show');
+        Route::post('survey/{id}/add-responses', 'save_questions_survey');
     });
 });
 

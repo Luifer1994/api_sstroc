@@ -14,7 +14,11 @@ class RolController extends Controller
      */
     public function index()
     {
-        //
+        $rols = Rol::all();
+        return response()->json([
+            'res' => true,
+            'data' => $rols
+        ]);
     }
 
     /**
