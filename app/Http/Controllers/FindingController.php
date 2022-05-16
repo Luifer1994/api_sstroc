@@ -51,7 +51,7 @@ class FindingController extends Controller
             $files = $request->file('images');
 
             foreach ($files as $file) {
-                $path = $file->store('public/images');
+                $path = $file->store('image', ['disk' => 'my_files']);
                 //$name = $file->getClientOriginalName();
                 $save = new ImageFinding();
                 $save->finding_id   = $new_finding->id;
