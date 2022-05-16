@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Findings
     Route::controller(FindingController::class)->group(function () {
         Route::post('finding-register', 'store');
+        Route::get('finding-list', 'index');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {

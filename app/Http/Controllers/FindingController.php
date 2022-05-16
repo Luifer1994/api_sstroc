@@ -15,9 +15,20 @@ class FindingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $limit = $request["limit"] ?? $limit = 10;
+
+        $findings = Finding::select('*')
+            ->with('user', 'area', 'image_findings')
+            ->orderBy('findings.id', 'DESC')
+            ->paginate($limit);
+
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $findings
+        ], 200);
     }
 
     /**
