@@ -5,6 +5,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FindingController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\HousingTypeController;
 use App\Http\Controllers\KindredController;
@@ -49,6 +50,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('employee-detail-perfil/{id}', 'show_perfil');
         Route::delete('employee-delete/{id}', 'destroy');
         Route::put('employee-update/{id}', 'update');
+    });
+    //Findings
+    Route::controller(FindingController::class)->group(function () {
+        Route::post('finding-register', 'store');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {
