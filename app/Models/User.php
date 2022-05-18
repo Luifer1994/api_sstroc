@@ -48,9 +48,7 @@ class User extends Authenticatable
 	protected $table = 'users';
 
 	protected $casts = [
-		'type_document_id' => 'int',
-		'rol_id' => 'int',
-		'gender_id' => 'int'
+		'rol_id' => 'int'
 	];
 
 	protected $dates = [
@@ -63,32 +61,17 @@ class User extends Authenticatable
 	];
 
 	protected $fillable = [
-		'name',
-		'last_name',
+		'employee_id',
 		'email',
-		'phone',
-		'type_document_id',
-		'document_number',
 		'email_verified_at',
 		'rol_id',
-		'gender_id',
 		'password',
 		'remember_token'
 	];
 
-	public function gender()
+	public function employee()
 	{
-		return $this->belongsTo(Gender::class);
-	}
-
-	public function rol()
-	{
-		return $this->belongsTo(Rol::class);
-	}
-
-	public function type_document()
-	{
-		return $this->belongsTo(TypeDocument::class);
+		return $this->belongsTo(Employee::class);
 	}
 
 	public function employees()

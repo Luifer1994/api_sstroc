@@ -109,7 +109,7 @@ class EmployeeController extends Controller
         )
 
             ->where('employees.id', $id)
-           //->select(DB::raw('DATE_FORMAT(employees.birth_date, "%Y/%m/%d") as birth_dates'))
+            ->withCount('users')
             ->with('perfil_sociodemographics')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')

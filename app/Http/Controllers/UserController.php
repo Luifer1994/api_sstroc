@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +17,17 @@ class UserController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $users = User::select(
             'users.*',
+            'employees.name',
+            'employees.last_name',
+            'employees.document_number',
+            'employees.phone',
             'type_documents.name as document_type',
             'genders.name as gender',
             'rols.name as rol',
         )
-            ->join('type_documents', 'type_documents.id', '=', 'users.type_document_id')
-            ->join('genders', 'genders.id', '=', 'users.gender_id')
+            ->leftJoin('employees', 'employees.id', '=', 'users.employee_id')
+            ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
+            ->join('genders', 'genders.id', '=', 'employees.gender_id')
             ->join('rols', 'rols.id', '=', 'users.rol_id')
             ->orderBy('users.id', 'DESC')
             ->paginate($limit);
@@ -54,6 +60,9 @@ class UserController extends Controller
 
     public function store(RegisterUserRequest $request)
     {
+        $employee = Employee::find($request->employee_id);
+        $request["password"] = Hash::make($request["password"]);
+        $request["email"] = $employee->email;
         $user = User::create($request->all());
         if ($user) {
             return response()->json([

@@ -26,14 +26,8 @@ class RegisterUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required',
-            'last_name'         => 'required',
-            'phone'             => 'required',
-            'type_document_id'  => 'required|exists:type_documents,id',
-            'document_number'   => 'required|max:12',
+            'employee_id'       => 'required|exists:employees,id|unique:users,employee_id',
             'rol_id'            => 'required|exists:rols,id',
-            'gender_id'         => 'required|exists:genders,id',
-            'email'             => 'required|email|unique:users,email',
             'password'          => 'required|min:8'
         ];
     }

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Employee
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $last_name
@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property Gender $gender
  * @property TypeDocument $type_document
  * @property User $user
@@ -90,5 +90,10 @@ class Employee extends Model
 	public function perfil_sociodemographics()
 	{
 		return $this->hasMany(PerfilSociodemographic::class);
+	}
+
+    public function users()
+	{
+		return $this->hasMany(User::class);
 	}
 }
