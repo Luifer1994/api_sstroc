@@ -18,6 +18,7 @@ use App\Http\Controllers\TypeContractController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\TracingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(FindingController::class)->group(function () {
         Route::post('finding-register', 'store');
         Route::get('finding-list', 'index');
+        Route::get('finding-detail/{id}', 'show');
+    });
+    //tracing
+    Route::controller(TracingController::class)->group(function () {
+        Route::post('tracing-register', 'store');
     });
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {

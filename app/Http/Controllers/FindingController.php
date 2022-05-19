@@ -21,6 +21,7 @@ class FindingController extends Controller
 
         $findings = Finding::select('*')
             ->with('user', 'area', 'image_findings')
+            ->withCount('tracings')
             ->orderBy('findings.id', 'DESC')
             ->paginate($limit);
 
@@ -51,8 +52,7 @@ class FindingController extends Controller
             $files = $request->file('images');
 
             foreach ($files as $file) {
-                $path = $file->store('image', ['disk' => 'my_files']);
-                //$name = $file->getClientOriginalName();
+                $path = $file->store('findings', ['disk' => 'my_files']);
                 $save = new ImageFinding();
                 $save->finding_id   = $new_finding->id;
                 $save->user_id      = $new_finding->user_id;
@@ -83,9 +83,25 @@ class FindingController extends Controller
      * @param  \App\Models\Finding  $finding
      * @return \Illuminate\Http\Response
      */
-    public function show(Finding $finding)
+    public function show($id)
     {
-        //
+        $finding = Finding::with('area', 'user', 'image_findings', 'tracings')->find($id);
+
+        if ($finding) {
+            foreach ($finding->tracings as $key => $value) {
+                $value->image_tracings;
+            }
+            return response()->json([
+                'res' => true,
+                'message' => 'ok',
+                'data' => $finding
+            ], 200);
+        }
+
+        return response()->json([
+            'res' => false,
+            'message' => 'El hallazgo no existe'
+        ], 400);
     }
 
     /**
