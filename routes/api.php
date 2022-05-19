@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('user-logout', 'logout');
         Route::post('user-register', 'store');
-        Route::get('user-list', 'index');
+        Route::get('user-list', 'index')->middleware('admin_aux');
         Route::get('validate-sesion', 'validateSesion');
     });
     //Employees
