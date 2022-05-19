@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Finding
- *
+ * 
  * @property int $id
  * @property string $description
  * @property string|null $long_description
@@ -21,10 +21,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
+ * 
  * @property Area $area
  * @property User $user
  * @property Collection|ImageFinding[] $image_findings
+ * @property Collection|Tracing[] $tracings
  *
  * @package App\Models
  */
@@ -59,5 +60,10 @@ class Finding extends Model
 	public function image_findings()
 	{
 		return $this->hasMany(ImageFinding::class);
+	}
+
+	public function tracings()
+	{
+		return $this->hasMany(Tracing::class);
 	}
 }
