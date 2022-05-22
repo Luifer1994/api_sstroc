@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('image_tracings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tracing_id')->constrained('tracings');
-            $table->string('url');
+            $table->text('url');
             $table->timestamps();
         });
     }

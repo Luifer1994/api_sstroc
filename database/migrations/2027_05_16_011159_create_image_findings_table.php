@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('finding_id')->constrained('findings');
             $table->foreignId('user_id');
-            $table->string('url');
+            $table->text('url');
             $table->softDeletes();
             $table->timestamps();
         });

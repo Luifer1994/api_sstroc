@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('finding_id')->constrained('findings');
             $table->foreignId('user_id')->constrained('users');
             $table->string('description');
-            $table->string('long_description')->nullable();
+            $table->text('long_description')->nullable();
             $table->timestamps();
         });
     }
