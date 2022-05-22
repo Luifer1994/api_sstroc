@@ -27,7 +27,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof RouteNotFoundException) {
             return response()->json(["res" => false, "message" => "Error de autenticación"], 401);
         }
-        if ($exception instanceof HttpException) {
+        if($exception instanceof HttpException){
             return response()->json(["res" => false, "message" => "Error de ruta"], 404);
         }
         if ($exception instanceof AuthorizationException) {

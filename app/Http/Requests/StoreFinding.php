@@ -29,7 +29,6 @@ class StoreFinding extends FormRequest
             'description'       => 'required|max:100',
             'area_id'           => 'required|exists:areas,id',
             'images'            => 'required|array|max:3',
-            'images.*'          => 'image|mimes:png,jpg,jpeg,bmp|max:5000'
         ];
     }
 

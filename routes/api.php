@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArlController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
@@ -39,7 +40,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('user-logout', 'logout');
         Route::post('user-register', 'store');
-        Route::get('user-list', 'index')->middleware('admin_aux');
+        Route::get('user-list', 'index')/* ->middleware('admin_aux') */;
         Route::get('validate-sesion', 'validateSesion');
     });
     //Employees
@@ -128,6 +129,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(SurveyController::class)->group(function () {
         Route::get('survey-detail/{id}', 'show');
         Route::post('survey/{id}/add-responses', 'save_questions_survey');
+    });
+    //area
+    Route::controller(AreaController::class)->group(function () {
+        Route::get('areas-list', 'index');
     });
 });
 

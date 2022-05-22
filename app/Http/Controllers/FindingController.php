@@ -20,10 +20,11 @@ class FindingController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
 
         $findings = Finding::select('*')
-            ->with('user', 'area', 'image_findings')
+            ->with('user.employee', 'area', 'image_findings')
             ->withCount('tracings')
             ->orderBy('findings.id', 'DESC')
             ->paginate($limit);
+
 
         return response()->json([
             'res' => true,
@@ -49,14 +50,11 @@ class FindingController extends Controller
 
         if ($new_finding->save()) {
 
-            $files = $request->file('images');
-
-            foreach ($files as $file) {
-                $path = $file->store('findings', ['disk' => 'my_files']);
+            foreach ($request->images as $file) {
                 $save = new ImageFinding();
                 $save->finding_id   = $new_finding->id;
                 $save->user_id      = $new_finding->user_id;
-                $save->url          = $path;
+                $save->url          = $file["url"];
 
                 if (!$save->save()) {
                     return response()->json([
@@ -85,12 +83,9 @@ class FindingController extends Controller
      */
     public function show($id)
     {
-        $finding = Finding::with('area', 'user', 'image_findings', 'tracings')->find($id);
+        $finding = Finding::with('area', 'user.employee', 'image_findings', 'tracings.image_tracings','tracings.user.employee')->find($id);
 
         if ($finding) {
-            foreach ($finding->tracings as $key => $value) {
-                $value->image_tracings;
-            }
             return response()->json([
                 'res' => true,
                 'message' => 'ok',

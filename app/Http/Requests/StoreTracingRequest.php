@@ -29,7 +29,6 @@ class StoreTracingRequest extends FormRequest
             'description'       => 'required|max:100',
             'finding_id'        => 'required|exists:findings,id',
             'images'            => 'required|array|max:3',
-            'images.*'          => 'image|mimes:png,jpg,jpeg,bmp|max:5000'
         ];
     }
 

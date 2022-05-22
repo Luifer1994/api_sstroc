@@ -37,18 +37,15 @@ class TracingController extends Controller
 
         if ($new_tracing->save()) {
 
-            $files = $request->file('images');
-
-            foreach ($files as $file) {
-                $path = $file->store('tracings', ['disk' => 'my_files']);
+            foreach ($request->images as $file) {
                 $save = new ImageTracing();
                 $save->tracing_id   = $new_tracing->id;
-                $save->url          = $path;
+                $save->url          = $file["url"];
 
                 if (!$save->save()) {
                     return response()->json([
-                        'res'       => false,
-                        'message'   => 'Error al crear seguimiento'
+                        'res' => false,
+                        'message' => 'Error al crear seguimiento'
                     ], 400);
                 }
             }
@@ -60,7 +57,7 @@ class TracingController extends Controller
         } else {
             return response()->json([
                 'res'       => false,
-                'message'   => 'Error al crear hallazgo'
+                'message'   => 'Error al crear seguimiento'
             ], 400);
         }
     }
