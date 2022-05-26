@@ -5,11 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFinding;
 use App\Models\Finding;
 use App\Models\ImageFinding;
+use App\Repositories\Finding\FindingRepositorie;
+use App\Repositories\ImageFinding\ImageFindingRepositorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FindingController extends Controller
 {
+
+    private $findingRepositorie;
+    private $imageFindingRepositorie;
+
+    public function __construct(FindingRepositorie $findingRepositorie, ImageFindingRepositorie $imageFindingRepositorie)
+    {
+        $this->findingRepositorie = $findingRepositorie;
+        $this->imageFindingRepositorie = $imageFindingRepositorie;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -17,20 +31,19 @@ class FindingController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request["limit"] ?? $limit = 10;
+        try {
+            $limit = $request["limit"] ?? $limit = 10;
 
-        $findings = Finding::select('*')
-            ->with('user.employee', 'area', 'image_findings')
-            ->withCount('tracings')
-            ->orderBy('findings.id', 'DESC')
-            ->paginate($limit);
+            $findings = $this->findingRepositorie->all($limit);
 
-
-        return response()->json([
-            'res' => true,
-            'message' => 'ok',
-            'data' => $findings
-        ], 200);
+            return response()->json([
+                'res' => true,
+                'message' => 'ok',
+                'data' => $findings
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['res' => false, 'message' => $th->getMessage()], 400);
+        }
     }
 
     /**
@@ -41,37 +54,48 @@ class FindingController extends Controller
      */
     public function store(StoreFinding $request)
     {
-        $new_finding = new Finding();
-        $new_finding->area_id           = $request->area_id;
-        $new_finding->description       = $request->description;
-        $new_finding->long_description  = $request->long_description ?? null;
-        $new_finding->user_id           = Auth::user()->id;
-        $new_finding->status            = 1;
+        try {
 
-        if ($new_finding->save()) {
+            $request["user_id"] = Auth::user()->id;
+            $request["status"]  = 1;
+            $new_finding        = new Finding($request->all());
 
-            foreach ($request->images as $file) {
-                $save = new ImageFinding();
-                $save->finding_id   = $new_finding->id;
-                $save->user_id      = $new_finding->user_id;
-                $save->url          = $file["url"];
+            DB::beginTransaction();
+            $new_finding = $this->findingRepositorie->save($new_finding);
 
-                if (!$save->save()) {
-                    return response()->json([
-                        'res' => false,
-                        'message' => 'Error al crear hallazgo'
-                    ], 400);
+            if ($new_finding) {
+
+                foreach ($request->images as $file) {
+
+                    $new_image                = new ImageFinding();
+                    $new_image->finding_id    = $new_finding->id;
+                    $new_image->user_id       = $new_finding->user_id;
+                    $new_image->url           =  $file["url"];
+
+                    $new_image =   $this->imageFindingRepositorie->save($new_image);
+
+                    if (!$new_image) {
+                        DB::rollBack();
+                        return response()->json([
+                            'res' => false,
+                            'message' => 'Error al crear hallazgo'
+                        ], 400);
+                    }
                 }
+
+                DB::commit();
+                return response()->json([
+                    'res' => true,
+                    'message' => 'Registro exitoso'
+                ], 200);
+            } else {
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al crear hallazgo'
+                ], 400);
             }
-            return response()->json([
-                'res' => true,
-                'message' => 'Registro exitoso'
-            ], 200);
-        } else {
-            return response()->json([
-                'res' => false,
-                'message' => 'Error al crear hallazgo'
-            ], 400);
+        } catch (\Throwable $th) {
+            return response()->json(['res' => false, 'message' => $th->getMessage()], 400);
         }
     }
 
@@ -81,22 +105,26 @@ class FindingController extends Controller
      * @param  \App\Models\Finding  $finding
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        $finding = Finding::with('area', 'user.employee', 'image_findings', 'tracings.image_tracings','tracings.user.employee')->find($id);
+        try {
+            $finding = $this->findingRepositorie->show($id);
 
-        if ($finding) {
+            if ($finding) {
+                return response()->json([
+                    'res' => true,
+                    'message' => 'ok',
+                    'data' => $finding
+                ], 200);
+            }
+
             return response()->json([
-                'res' => true,
-                'message' => 'ok',
-                'data' => $finding
-            ], 200);
+                'res' => false,
+                'message' => 'El hallazgo no existe'
+            ], 400);
+        } catch (\Throwable $th) {
+            return response()->json(['res' => false, 'message' => $th->getMessage()], 400);
         }
-
-        return response()->json([
-            'res' => false,
-            'message' => 'El hallazgo no existe'
-        ], 400);
     }
 
     /**
