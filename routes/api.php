@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('finding-register', 'store');
         Route::get('finding-list', 'index');
         Route::get('finding-detail/{id}', 'show');
+        Route::put('finding-closed/{id}', 'closed');
     });
     //tracing
     Route::controller(TracingController::class)->group(function () {

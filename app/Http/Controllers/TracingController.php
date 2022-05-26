@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTracingRequest;
 use App\Models\ImageTracing;
 use App\Models\Tracing;
+use App\Repositories\Finding\FindingRepositorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TracingController extends Controller
 {
+
+    private $findingRepositorie;
+
+    public function __construct(FindingRepositorie $findingRepositorie)
+    {
+        $this->findingRepositorie = $findingRepositorie;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +37,14 @@ class TracingController extends Controller
     public function store(StoreTracingRequest $request)
     {
 
+        $finding = $this->findingRepositorie->show($request->finding_id);
+
+        if (!$finding->status) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Este hallazgo ya fue cerrado'
+            ], 400);
+        }
         $new_tracing = new Tracing();
         $new_tracing->finding_id        = $request->finding_id;
         $new_tracing->description       = $request->description;

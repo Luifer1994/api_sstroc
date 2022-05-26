@@ -127,6 +127,30 @@ class FindingController extends Controller
         }
     }
 
+    public function closed(int  $id)
+    {
+        try {
+            $finding = $this->findingRepositorie->show($id);
+
+            if ($finding) {
+                $finding["status"] = 0;
+
+                $finding =  $this->findingRepositorie->save($finding);
+                return response()->json([
+                    'res' => true,
+                    'message' => 'Hallazgo cerrado con éxito',
+                    'data' => $finding
+                ], 200);
+            }
+            return response()->json([
+                'res' => false,
+                'message' => 'El hallazgo no existe'
+            ], 400);
+        } catch (\Throwable $th) {
+            return response()->json(['res' => false, 'message' => $th->getMessage()], 400);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
