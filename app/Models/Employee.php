@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $birth_date
  * @property int $gender_id
  * @property int $user_id
- * @property string|null $address
+ * @property Carbon|null $register_identification_risk
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -34,13 +34,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property TypeDocument $type_document
  * @property User $user
  * @property Collection|Question[] $questions
+ * @property Collection|IdentificationHazardAndRisk[] $identification_hazard_and_risks
  * @property Collection|PerfilSociodemographic[] $perfil_sociodemographics
  *
  * @package App\Models
  */
 class Employee extends Model
 {
-	use SoftDeletes, HasFactory;
+	use SoftDeletes,HasFactory;
 	protected $table = 'employees';
 
 	protected $casts = [
@@ -50,7 +51,8 @@ class Employee extends Model
 	];
 
 	protected $dates = [
-		'birth_date'
+		'birth_date',
+		'register_identification_risk'
 	];
 
 	protected $fillable = [
@@ -62,7 +64,8 @@ class Employee extends Model
 		'document_number',
 		'birth_date',
 		'gender_id',
-		'user_id'
+		'user_id',
+		'register_identification_risk'
 	];
 
 	public function gender()
@@ -80,6 +83,11 @@ class Employee extends Model
 		return $this->belongsTo(User::class);
 	}
 
+    public function users()
+	{
+		return $this->hasMany(User::class);
+	}
+
 	public function questions()
 	{
 		return $this->belongsToMany(Question::class, 'employees_has_questions')
@@ -87,13 +95,13 @@ class Employee extends Model
 					->withTimestamps();
 	}
 
+	public function identification_hazard_and_risks()
+	{
+		return $this->hasMany(IdentificationHazardAndRisk::class);
+	}
+
 	public function perfil_sociodemographics()
 	{
 		return $this->hasMany(PerfilSociodemographic::class);
-	}
-
-    public function users()
-	{
-		return $this->hasMany(User::class);
 	}
 }

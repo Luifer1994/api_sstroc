@@ -17,7 +17,17 @@ class RiskTypeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['Físico','Mecanico','Biologico','Social']),
+            'name' => $this->faker->unique()->randomElement([
+                'FÍSICOS',
+                'BIOMECÁNICOS',
+                'BIOLOGICOS',
+                'QUÍMICOS', 'PSICOSOCIAL',
+                'MECANICO', 'ELÉCTRICO',
+                'LOCATIVO',
+                'TECNOLÓGICO',
+                'PUBLICO',
+                'FENÓMENOS NATURALES',
+            ]),
         ];
     }
 }

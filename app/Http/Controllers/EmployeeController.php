@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Response;
 use App\Models\PerfilSociodemographic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -198,7 +199,7 @@ class EmployeeController extends Controller
             if ($employee->update($request->all())) {
                 return response()->json([
                     'res' => true,
-                    'message' => 'Actualización exitosa',
+                    'message' => 'Actualizaci��n exitosa',
                     'data' => $employee
                 ], 200);
             } else {
@@ -243,5 +244,37 @@ class EmployeeController extends Controller
                 'message' => 'Not found'
             ], 200);
         }
+    }
+
+    public function findDocument(Request $request)
+    {
+        $rules = ['document_number' => 'required|exists:employees,document_number'];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $employee = Employee::where('document_number', $request->document_number)->first();
+
+
+
+
+        if ($employee->register_identification_risk) {
+            $dateOld  = $employee->register_identification_risk;
+            $dateCurrent = Carbon::now();
+            $dateDiff = $dateOld->diffInMonths($dateCurrent);
+            if ($dateDiff <= 6) {
+                return response()->json([
+                    'res' => true,
+                    'message' => 'Ya contestaste esta encuesta hace menos de 6 meses.'
+                ], 400);
+            }
+        }
+
+        return response()->json([
+            'res' => true,
+            'data' => $employee
+        ], 200);
     }
 }

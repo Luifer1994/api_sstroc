@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('positions', function (Blueprint $table) {
+        Schema::create('identification_hazard_and_risks', function (Blueprint $table) {
             $table->id();
-            $table->string('name',70);
+            $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('risk_id')->constrained('risks');
+            $table->boolean('response');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('positions');
+        Schema::dropIfExists('identification_hazard_and_risks');
     }
 };

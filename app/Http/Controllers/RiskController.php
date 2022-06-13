@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RiskType;
+use App\Models\Risk;
 use Illuminate\Http\Request;
 
-class RiskTypeController extends Controller
+class RiskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,7 @@ class RiskTypeController extends Controller
      */
     public function index()
     {
-        $riskTypes = RiskType::with('risks')->get();
-
-        return response()->json(['res' => true, 'data' => $riskTypes]);
+        //
     }
 
     /**
@@ -33,10 +31,10 @@ class RiskTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\RiskType  $riskType
+     * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function show(RiskType $riskType)
+    public function show(Risk $risk)
     {
         //
     }
@@ -45,10 +43,10 @@ class RiskTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RiskType  $riskType
+     * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RiskType $riskType)
+    public function update(Request $request, Risk $risk)
     {
         //
     }
@@ -56,10 +54,10 @@ class RiskTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\RiskType  $riskType
+     * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RiskType $riskType)
+    public function destroy(Risk $risk)
     {
         //
     }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('birth_date');
             $table->foreignId('gender_id')->constrained('genders');
             $table->foreignId('user_id')->constrained('users');
+            $table->date('register_identification_risk')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
