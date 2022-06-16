@@ -31,4 +31,9 @@ class Area extends Model
 	protected $fillable = [
 		'name'
 	];
+
+    public function finding()
+    {
+       return $this->hasMany(Finding::class);
+    }
 }

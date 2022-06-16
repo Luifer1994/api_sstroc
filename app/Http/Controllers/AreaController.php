@@ -16,8 +16,8 @@ class AreaController extends Controller
     {
         $areas = Area::all();
         return response()->json([
-            'res'=>true,
-            'data'=>$areas
+            'res' => true,
+            'data' => $areas
         ]);
     }
 
@@ -64,5 +64,15 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         //
+    }
+
+    public function topFindingForArea()
+    {
+        $data = Area::select('id', 'name')->withCount('finding')->orderBy('finding_count', 'DESC')->limit(10)->get();
+
+        return response()->json([
+            'res' => true,
+            'data' => $data
+        ]);
     }
 }

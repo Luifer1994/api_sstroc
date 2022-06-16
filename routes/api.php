@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('finding-list', 'index');
         Route::get('finding-detail/{id}', 'show');
         Route::put('finding-closed/{id}', 'closed');
+        Route::get('count-open-and-closed','closedVsOPen');
     });
     //tracing
     Route::controller(TracingController::class)->group(function () {
@@ -136,6 +137,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //area
     Route::controller(AreaController::class)->group(function () {
         Route::get('areas-list', 'index');
+        Route::get('top-finding-for-area','topFindingForArea');
+    });
+    //Identification risk
+    Route::controller(IdentificationHazardAndRiskController::class)->group(function (){
+        Route::get('top-risk-last-six-months','topRisk');
     });
 });
 

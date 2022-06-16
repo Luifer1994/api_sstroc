@@ -103,4 +103,22 @@ class IdentificationHazardAndRiskController extends Controller
     {
         //
     }
+
+    public function topRisk()
+    {
+        $data = Risk::select('id', 'name', 'risks_type_id')
+            ->with('risk_type:id,name')
+            ->withCount('identification_hazard_and_risks')
+            ->whereHas('identification_hazard_and_risks', function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->subMonths(6), Carbon::now()])
+                    ->where('response', true);
+            })
+            ->orderBy('identification_hazard_and_risks_count','DESC')
+            ->limit(10)
+            ->get();
+        return response()->json([
+            'res'=>true,
+            'data'=>$data
+        ]);
+    }
 }

@@ -173,4 +173,15 @@ class FindingController extends Controller
     {
         //
     }
+
+    public function closedVsOPen()
+    {
+        $data = Finding::selectRaw('count(IF(status = 1,1,null)) as total_open')
+        ->selectRaw('count(IF(status = 0,1,null)) as total_closed')
+        ->first();
+        return response()->json([
+            'res'=>true,
+            'data'=>$data
+        ]);
+    }
 }
