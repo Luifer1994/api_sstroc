@@ -14,7 +14,11 @@ class RiskController extends Controller
      */
     public function index()
     {
-        //
+        $risks = Risk::all();
+        return response()->json([
+            'res' => true,
+            'data' => $risks
+        ]);
     }
 
     /**

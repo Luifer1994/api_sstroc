@@ -65,4 +65,14 @@ class PositionController extends Controller
     {
         //
     }
+
+    public function listProcessByPosition(int $id)
+    {
+        $data = Position::select('id')->with('processes:id,name')->where('id', $id)->first();
+
+        return response()->json([
+            'res' => true,
+            'data' => $data
+        ],200);
+    }
 }

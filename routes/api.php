@@ -12,8 +12,10 @@ use App\Http\Controllers\HousingTypeController;
 use App\Http\Controllers\IdentificationHazardAndRiskController;
 use App\Http\Controllers\KindredController;
 use App\Http\Controllers\MaritalStatuController;
+use App\Http\Controllers\MatrixRiskController;
 use App\Http\Controllers\PensionFundController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RiskController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SocialSecurityController;
 use App\Http\Controllers\TypeContractController;
@@ -22,6 +24,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\TracingController;
 use App\Http\Controllers\RiskTypeController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -61,7 +64,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('finding-list', 'index');
         Route::get('finding-detail/{id}', 'show');
         Route::put('finding-closed/{id}', 'closed');
-        Route::get('count-open-and-closed','closedVsOPen');
+        Route::get('count-open-and-closed', 'closedVsOPen');
     });
     //tracing
     Route::controller(TracingController::class)->group(function () {
@@ -108,6 +111,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //position
     Route::controller(PositionController::class)->group(function () {
         Route::get('position-list', 'index');
+        Route::get('process-by-position/{position_id}','listProcessByPosition');
     });
     //type contract
     Route::controller(TypeContractController::class)->group(function () {
@@ -137,11 +141,23 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //area
     Route::controller(AreaController::class)->group(function () {
         Route::get('areas-list', 'index');
-        Route::get('top-finding-for-area','topFindingForArea');
+        Route::get('top-finding-for-area', 'topFindingForArea');
     });
     //Identification risk
-    Route::controller(IdentificationHazardAndRiskController::class)->group(function (){
-        Route::get('top-risk-last-six-months','topRisk');
+    Route::controller(IdentificationHazardAndRiskController::class)->group(function () {
+        Route::get('top-risk-last-six-months', 'topRisk');
+    });
+    //Matrix risk
+    Route::controller(MatrixRiskController::class)->group(function () {
+        Route::post('matrix-risk-create', 'store');
+    });
+     //Risk
+     Route::controller(RiskController::class)->group(function () {
+        Route::get('risk-list', 'index');
+    });
+    //Tasks
+    Route::controller(TaskController::class)->group(function () {
+        Route::get('task-list', 'index');
     });
 });
 

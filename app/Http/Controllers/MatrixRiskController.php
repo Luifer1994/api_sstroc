@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMatrixRiskRequest;
 use App\Models\MatrixRisk;
 use Illuminate\Http\Request;
 
@@ -23,9 +24,28 @@ class MatrixRiskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMatrixRiskRequest $request)
     {
-        //
+        try {
+            $newMatrixRiks = MatrixRisk::create($request->all());
+
+            if (!$newMatrixRiks) {
+                return response()->json([
+                    'res' => false,
+                    'message' => "Error al registrar datos"
+                ], 400);
+            }
+
+            return response()->json([
+                'res' => true,
+                'message' => "Registro exitoso"
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'res' => false,
+                'message' => $th->getMessage()
+            ], 400);
+        }
     }
 
     /**
