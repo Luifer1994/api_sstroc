@@ -35,7 +35,7 @@ class Area extends Model
 		'name'
 	];
 
-	public function findings()
+	public function finding()
 	{
 		return $this->hasMany(Finding::class);
 	}
