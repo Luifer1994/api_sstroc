@@ -13,44 +13,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Risk
+ * Class Task
  *
  * @property int $id
- * @property int $risks_type_id
  * @property string $name
- * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @property RiskType $risk_type
- * @property Collection|IdentificationHazardAndRisk[] $identification_hazard_and_risks
  * @property Collection|MatrixRisk[] $matrix_risks
  *
  * @package App\Models
  */
-class Risk extends Model
+class Task extends Model
 {
-	use SoftDeletes,HasFactory;
-	protected $table = 'risks';
+    use SoftDeletes, HasFactory;
 
-	protected $casts = [
-		'risks_type_id' => 'int'
-	];
+	protected $table = 'tasks';
 
 	protected $fillable = [
-		'risks_type_id',
 		'name'
 	];
-
-	public function risk_type()
-	{
-		return $this->belongsTo(RiskType::class, 'risks_type_id');
-	}
-
-	public function identification_hazard_and_risks()
-	{
-		return $this->hasMany(IdentificationHazardAndRisk::class);
-	}
 
 	public function matrix_risks()
 	{

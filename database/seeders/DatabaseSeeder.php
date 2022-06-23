@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Activity;
 use App\Models\Area;
 use App\Models\Arl;
 use App\Models\City;
@@ -15,6 +16,7 @@ use App\Models\PensionFund;
 use App\Models\Position;
 use App\Models\RiskType;
 use App\Models\SocialSecurity;
+use App\Models\Task;
 use App\Models\TypeContract;
 use App\Models\TypeDocument;
 use App\Models\User;
@@ -38,32 +40,96 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $process =  [
+            'GESTIÓN ADMINISTRATIVA',
+            'GESTIÓN DE FACTURACIÓN',
+            'GESTIÓN FINANCIERA',
+            'GESTIÓN COMERCIAL',
+            'CARTERA',
+            'GESTIÓN DEL TALENTO HUMANO',
+            'CONSULTA EXTERNA',
+            'ATENCIÓN AL USUARIO',
+            'GESTION DE LA TECNOLOGIA',
+            'SISTEMAS DE INFORMACION',
+            'GESTIÓN DE COMPRAS',
+            'QUIMIOTERAPIA',
+            'RADIOTERAPIA',
+            'SERVICIO FARMACEUTICO',
+            'SEGURIDAD DEL PACIENTE',
+            'GERENTE',
+            'GESTIÓN DE CALIDAD'
+        ];
+
+        foreach ($process as $value) {
+            DB::table('processes')->insert([
+                'name' => $value
+            ]);
+        }
+
         $positions = [
+            'ANALISTA DE COSTOS',
+            'APRENDIZ SENA',
+            'ASISTENTE ADMINISTRATIVO',
+            'ASISTENTE CONTABLE',
+            'ASISTENTE DE CARTERA',
+            'ASISTENTE DE TALENTO HUMANO',
+            'AUXILIAR ADMINISTRATIVA',
+            'AUXILIAR ADMINISTRATIVA DE SIAU',
+            'AUXILIAR ADMINISTRATIVO DE GESTION DE LA TECNOLOGIA',
+            'AUXILIAR DE ADMISIONES',
+            'AUXILIAR DE ALTO COSTO',
+            'AUXILIAR DE ARCHIVO',
+            'AUXILIAR DE AUTORIZACIONES',
+            'AUXILIAR DE CALL CENTER',
+            'AUXILIAR DE COMPRAS',
+            'AUXILIAR DE CUENTA DE ALTO COSTO',
+            'AUXILIAR DE ENFERMERIA',
+            'AUXILIAR DE FACTURACIÓN',
+            'AUXILIAR DE FARMACIA',
+            'AUXILIAR DE MANTENIMIENTO',
+            'AUXILIAR DE OFICIOS VARIOS',
+            'AUXILIAR DE SERVICIOS GENERALES',
+            'AUXILIAR DE SISTEMAS DE INFORMACION',
+            'COMUNICADORA SOCIAL',
+            'COORD CUENTA DE ALTO COSTO',
+            'COORDINADOR DE SEGURIDAD Y SALUD EN EL TRABAJO',
+            'COORDINADORA DE CALL CENTER',
+            'COORDINADORA DE CUENTAS MEDICAS',
+            'COORDINADORA DE SEGURIDAD DEL PACIENTE',
+            'DIRECTOR ADMINISTRATIVO Y FINANCIERO',
+            'DIRECTORA TECNICA DEL SERVICIO FARMACEUTICO',
+            'ENFERMERA',
+            'ENFERMERA ADMINISTRATIVA',
+            'FISICO MEDICO',
+            'GERENTE',
+            'GESTORA DE PROGRAMAS ESPECIALES',
+            'JEFE DE PRODUCCION',
+            'LIDER ADMINISTRATIVO',
             'LIDER COMERCIAL',
             'LIDER DE CONSULTA EXTERNA',
             'LÍDER DE GESTIÓN DE COMPRAS',
-            'LIDER DE GESTIÓN DE LA CALIDAD',
-            'LIDER DE GESTIÓN DE LA TECNOLOGÍA Y AMBIENTE FÍSICO',
+            'LIDER DE GESTION DE LA CALIDAD',
+            'LIDER DE GESTION DE LA TECNOLOGIA Y AMBIENTE FISICO',
             'LÍDER DE GESTIÓN DE TALENTO HUMANO',
-            'LIDER DE GESTIÓN FINANCIERA',
+            'LIDER DE GESTION FINANCIERA',
             'LIDER DE QUIMIOTERAPIA',
             'LIDER DE RADIOTERAPIA',
-            'LIDER DE SISTEMAS DE INFORMACIÓN',
+            'LIDER DE SISTEMAS DE INFORMACION',
             'MEDICO GENERAL',
             'MENSAJERO',
-            'OFICIAL DE PROTECCIÓN RADIOLOGICA',
-            'ORIENTADORA',
+            'OFICIAL DE PROTECCION RADIOLOGICA',
             'QUIMICO FARMACEUTICO',
             'REVISOR(A) DE CUENTAS MEDICAS',
             'TECNOLOGO DE RADIOTERAPIA',
             'TRABAJADORA SOCIAL'
-
         ];
+
         foreach ($positions as $position) {
             DB::table('positions')->insert([
                 'name' => $position
             ]);
         }
+
 
         $riskTypes = [
             [
@@ -221,6 +287,8 @@ class DatabaseSeeder extends Seeder
         Arl::factory(2)->create();
         PensionFund::factory(3)->create();
         User::factory(1)->create();
+        Task::factory(4)->create();
+        Activity::factory(4)->create();
 
         DB::table('surveys')->insert([
             "id" => 1,

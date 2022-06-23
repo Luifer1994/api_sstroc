@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
+ * @property Collection|Position[] $positions
+ *
  * @package App\Models
  */
 class Process extends Model
@@ -30,4 +33,11 @@ class Process extends Model
 	protected $fillable = [
 		'name'
 	];
+
+	public function positions()
+	{
+		return $this->belongsToMany(Position::class, 'positions_processes')
+					->withPivot('id')
+					->withTimestamps();
+	}
 }
