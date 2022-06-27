@@ -111,7 +111,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //position
     Route::controller(PositionController::class)->group(function () {
         Route::get('position-list', 'index');
-        Route::get('process-by-position/{position_id}','listProcessByPosition');
+        Route::get('process-by-position/{position_id}', 'listProcessByPosition');
     });
     //type contract
     Route::controller(TypeContractController::class)->group(function () {
@@ -150,9 +150,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Matrix risk
     Route::controller(MatrixRiskController::class)->group(function () {
         Route::post('matrix-risk-create', 'store');
+        Route::get('matrix-ris-list', 'index');
+        Route::get('matrix-ris-detail/{id}', 'show');
     });
-     //Risk
-     Route::controller(RiskController::class)->group(function () {
+    //Risk
+    Route::controller(RiskController::class)->group(function () {
         Route::get('risk-list', 'index');
     });
     //Tasks

@@ -31,7 +31,7 @@ class CreateMatrixRiskRequest extends FormRequest
             'process_id'            => 'required|exists:processes,id',
             'area_id'               => 'required|exists:areas,id',
             'task_id'               => 'required|exists:tasks,id',
-            'clasification'         => 'required|in:RUTINARIO, NO RUTINARIO',
+            'clasification'         => 'required|in:RUTINARIO,NO RUTINARIO',
             'risk_id'               => 'required|exists:risks,id',
             'possible_effects'      => 'nullable',
             'consequence'           => 'nullable',

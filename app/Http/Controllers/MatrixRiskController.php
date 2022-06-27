@@ -13,9 +13,19 @@ class MatrixRiskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $limit = $request["limit"] ?? $limit = 10;
+
+        $matrix = MatrixRisk::select('*')
+            ->with(['area:id,name', 'position:id,name', 'process:id,name', 'risk:id,name,risks_type_id', 'risk.risk_type:id,name', 'task:id,name'])
+            ->orderBy('id', 'DESC')
+            ->paginate($limit);
+
+        return response()->json([
+            'res' => true,
+            'data' => $matrix
+        ], 200);
     }
 
     /**
@@ -54,9 +64,24 @@ class MatrixRiskController extends Controller
      * @param  \App\Models\MatrixRisk  $matrixRisk
      * @return \Illuminate\Http\Response
      */
-    public function show(MatrixRisk $matrixRisk)
+    public function show(int $id)
     {
-        //
+        $matrixRisk = MatrixRisk::select('*')
+            ->with(['area:id,name', 'position:id,name', 'process:id,name', 'risk:id,name,risks_type_id', 'risk.risk_type:id,name', 'task:id,name'])
+            ->where('id', $id)
+            ->first();
+
+        if (!$matrixRisk) {
+            return response()->json([
+                'res' => false,
+                'message' => 'El registro no existe'
+            ], 404);
+        }
+
+        return response()->json([
+            'res' => true,
+            'data' => $matrixRisk
+        ], 200);
     }
 
     /**
