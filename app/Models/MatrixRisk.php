@@ -7,11 +7,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MatrixRisk
- * 
+ *
  * @property int $id
  * @property int $item
  * @property int $position_id
@@ -28,12 +29,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $control_done
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property Area $area
  * @property Position $position
  * @property Process $process
  * @property Risk $risk
  * @property Task $task
+ * @property Collection|EvaluateMatrix[] $evaluate_matrices
  *
  * @package App\Models
  */
@@ -90,5 +92,10 @@ class MatrixRisk extends Model
 	public function task()
 	{
 		return $this->belongsTo(Task::class);
+	}
+
+	public function evaluate_matrices()
+	{
+		return $this->hasMany(EvaluateMatrix::class);
 	}
 }
