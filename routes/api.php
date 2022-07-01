@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EvaluateMatrixController;
 use App\Http\Controllers\FindingController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\HousingTypeController;
@@ -152,6 +153,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('matrix-risk-create', 'store');
         Route::get('matrix-ris-list', 'index');
         Route::get('matrix-ris-detail/{id}', 'show');
+    });
+    //Matrix risk
+    Route::controller(EvaluateMatrixController::class)->group(function () {
+        Route::post('evaluate-matrix-create', 'store');
     });
     //Risk
     Route::controller(RiskController::class)->group(function () {

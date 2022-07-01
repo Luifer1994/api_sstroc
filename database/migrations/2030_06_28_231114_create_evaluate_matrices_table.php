@@ -27,13 +27,15 @@ return new class extends Migration
             $table->integer('total_exposed');
             $table->boolean('exist_legal_requirement')->default(false);
             $table->text('detail_legal_requirement')->nullable();
-            $table->enum('exist_new_control',['SI', 'NO', 'NO APLICA']);
+            $table->enum('exist_new_control', ['SI', 'NO', 'NO APLICA']);
             $table->text('detail_control')->nullable();
             $table->string('control_type')->nullable();
             $table->date('date_programing_control')->nullable();
+            $table->foreignId('position_id')->constrained('positions')->nullable();
+
             $table->text('tracing')->nullable();
             $table->date('date_tracing')->nullable();
-            $table->enum('state_compliance',['CERRADO', 'EN PROCESO', 'NO APLICA', 'NO INICIADO']);
+            $table->enum('state_compliance', ['CERRADO', 'EN PROCESO', 'NO APLICA', 'NO INICIADO'])->default('NO INICIADO');
             $table->timestamps();
         });
     }

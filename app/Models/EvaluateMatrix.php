@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $detail_control
  * @property string|null $control_type
  * @property Carbon|null $date_programing_control
+ * @property int $position_id
  * @property string|null $tracing
  * @property Carbon|null $date_tracing
  * @property string $state_compliance
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * 
  * @property MatrixRisk $matrix_risk
+ * @property Position $position
  *
  * @package App\Models
  */
@@ -54,7 +56,8 @@ class EvaluateMatrix extends Model
 		'number_exposed_visitor' => 'int',
 		'number_exposed_contrataing' => 'int',
 		'total_exposed' => 'int',
-		'exist_legal_requirement' => 'bool'
+		'exist_legal_requirement' => 'bool',
+		'position_id' => 'int'
 	];
 
 	protected $dates = [
@@ -79,6 +82,7 @@ class EvaluateMatrix extends Model
 		'detail_control',
 		'control_type',
 		'date_programing_control',
+		'position_id',
 		'tracing',
 		'date_tracing',
 		'state_compliance'
@@ -87,5 +91,10 @@ class EvaluateMatrix extends Model
 	public function matrix_risk()
 	{
 		return $this->belongsTo(MatrixRisk::class);
+	}
+
+	public function position()
+	{
+		return $this->belongsTo(Position::class);
 	}
 }
