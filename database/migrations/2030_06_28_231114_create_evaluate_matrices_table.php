@@ -31,7 +31,7 @@ return new class extends Migration
             $table->text('detail_control')->nullable();
             $table->string('control_type')->nullable();
             $table->date('date_programing_control')->nullable();
-            $table->foreignId('position_id')->constrained('positions')->nullable();
+            $table->foreignId('position_id')->nullable()->unsigned();
 
             $table->text('tracing')->nullable();
             $table->date('date_tracing')->nullable();

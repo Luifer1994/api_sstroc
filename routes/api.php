@@ -28,6 +28,7 @@ use App\Http\Controllers\RiskTypeController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProcesseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -157,6 +158,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Matrix risk
     Route::controller(EvaluateMatrixController::class)->group(function () {
         Route::post('evaluate-matrix-create', 'store');
+        Route::get('evaluate-matrix-detail/{id}', 'show');
     });
     //Risk
     Route::controller(RiskController::class)->group(function () {
@@ -165,6 +167,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Tasks
     Route::controller(TaskController::class)->group(function () {
         Route::get('task-list', 'index');
+    });
+    //Process
+    Route::controller(ProcessController::class)->group(function () {
+        Route::get('process-list', 'index');
     });
 });
 

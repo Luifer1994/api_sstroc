@@ -19,6 +19,7 @@ class MatrixRiskController extends Controller
 
         $matrix = MatrixRisk::select('*')
             ->with(['area:id,name', 'position:id,name', 'process:id,name', 'risk:id,name,risks_type_id', 'risk.risk_type:id,name', 'task:id,name'])
+            ->withCount('evaluate_matrices')
             ->orderBy('id', 'DESC')
             ->paginate($limit);
 

@@ -30,4 +30,24 @@ class EvaluateMatrixController extends Controller
             ], 400);
         }
     }
+
+    //Detail the Evaluate Matrix by id
+    public function show($id)
+    {
+        $evaluate = EvaluateMatrix::find($id);
+
+        if ($evaluate) {
+            return response()->json([
+                'res' => true,
+                'message' => 'ok',
+                'data' => $evaluate,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'El registro no existes',
+                'data' => null,
+            ], 404);
+        }
+    }
 }

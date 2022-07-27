@@ -37,7 +37,7 @@ class CreateMatrixRiskRequest extends FormRequest
             'consequence'           => 'nullable',
             'hours_exposition_day'  => 'required|string',
             'exists_control'        => 'required|in:0,1',
-            'cotrol_descrption'     => 'required_if:exists_control,==,true',
+            'cotrol_descrption'     => 'required_if:exists_control,==,1',
             'control_done'          => 'required|in:FUENTE,INDIVIDUE,MEDIO'
         ];
     }

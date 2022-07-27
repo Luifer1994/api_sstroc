@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Process;
 use App\Models\Processe;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,14 @@ class ProcesseController extends Controller
      */
     public function index()
     {
-        //
+        //list all processe
+        $processe = Process::all();
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $processe,
+        ], 200);
+
     }
 
     /**
