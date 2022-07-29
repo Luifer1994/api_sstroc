@@ -7,6 +7,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvaluateMatrixController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FindingController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\HousingTypeController;
@@ -171,6 +172,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Process
     Route::controller(ProcessController::class)->group(function () {
         Route::get('process-list', 'index');
+    });
+    //Events
+    Route::controller(EventController::class)->group(function () {
+        Route::post('event-register', 'store');
+        Route::get('event-list-user', 'eventUser');
     });
 });
 

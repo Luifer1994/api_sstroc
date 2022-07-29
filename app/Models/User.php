@@ -69,13 +69,28 @@ class User extends Authenticatable
 		'remember_token'
 	];
 
-	public function employee()
+	public function rol()
 	{
-		return $this->belongsTo(Employee::class);
+		return $this->belongsTo(Rol::class);
 	}
 
 	public function employees()
 	{
 		return $this->hasMany(Employee::class);
+	}
+
+	public function events()
+	{
+		return $this->hasMany(Event::class);
+	}
+
+	public function findings()
+	{
+		return $this->hasMany(Finding::class);
+	}
+
+	public function tracings()
+	{
+		return $this->hasMany(Tracing::class);
 	}
 }
