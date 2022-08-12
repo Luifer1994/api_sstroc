@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property string|null $description
  * @property Carbon $start_date
+ * @property Carbon $end_date
  * @property bool $active
  * @property int $user_id
  * @property Carbon|null $created_at
@@ -35,13 +36,15 @@ class Event extends Model
 	];
 
 	protected $dates = [
-		'start_date'
+		'start_date',
+		'end_date'
 	];
 
 	protected $fillable = [
 		'title',
 		'description',
 		'start_date',
+		'end_date',
 		'active',
 		'user_id'
 	];

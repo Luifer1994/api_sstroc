@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->boolean('active')->default(true);
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();

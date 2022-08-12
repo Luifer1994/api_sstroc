@@ -29,6 +29,7 @@ class CreateEventRequest extends FormRequest
             'title'           => 'required|string|max:255',
             'description'     => 'nullable|string',
             'start_date'      => 'required|date_format:Y-m-d H:i:s|after:yesterday',
+            'end_date'        => 'required|date_format:Y-m-d H:i:s|after:start_date',
         ];
     }
 

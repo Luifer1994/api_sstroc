@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEventRequest;
+use App\Http\Requests\UpdateEvenetRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,35 @@ class EventController extends Controller
         return response()->json([
             "message" => "Eventos obtenidos correctamente",
             "data" => $events
+        ], 200);
+    }
+
+    //find event by id
+    public function findEvent($id)
+    {
+        $event = Event::find($id);
+        return response()->json([
+            "message" => "Evento obtenido correctamente",
+            "data" => $event
+        ], 200);
+    }
+
+    //update event
+    public function update(UpdateEvenetRequest $request, $id)
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return response()->json([
+                "res" => false,
+                "message" => "Evento no encontrado",
+                "data" => $event
+            ], 404);
+        }
+        $event->update($request->all());
+        return response()->json([
+            "res" => true,
+            "message" => "Evento actualizado correctamente",
+            "data" => $event
         ], 200);
     }
 }
