@@ -4,6 +4,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArlController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EducationLevelController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvaluateMatrixController;
@@ -179,6 +180,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('event-list-user', 'eventUser');
         Route::get('event/{id}', 'findEvent');
         Route::put('event-update/{id}', 'update');
+        Route::delete('event-delete/{id}', 'delete');
+    });
+
+    //Documents
+    Route::controller(DocumentController::class)->group(function () {
+        Route::post('document-register', 'store');
+        Route::get('document-list', 'index');
+        Route::get('document-detail/{id}', 'show');
+        Route::put('document-update/{id}', 'update');
     });
 });
 
