@@ -19,7 +19,7 @@ class FindingRepositorie extends BaseRepositorie
     public function all(int $limit)
     {
         return $this->model::select('*')
-            ->with('user.employees', 'area', 'image_findings')
+            ->with('user.employee', 'area', 'image_findings')
             ->withCount('tracings')
             ->orderBy('findings.id', 'DESC')
             ->paginate($limit);

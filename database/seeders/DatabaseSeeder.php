@@ -467,5 +467,37 @@ class DatabaseSeeder extends Seeder
             "category" => "main",
             "survey_id" => 1,
         ]);
+        /* DB::table('questions')->insert([
+            "id" => 1,
+            "title" => "¿Ha sido diagnosticado con alguna enfermedad?",
+            "order" => 1,
+            "required" => true,
+            "category" => "main",
+            "survey_id" => 1,
+        ]); */
+        DB::table('responses')->insert([
+            "id" => 11,
+            "indicator" => "a",
+            "text" => "Diario",
+            "response_true" => false,
+            "question_id" => 9,
+            "question_next_id" => NULL,
+        ]);
+        DB::table('responses')->insert([
+            "id" => 12,
+            "indicator" => "b",
+            "text" => "Semanal",
+            "response_true" => false,
+            "question_id" => 9,
+            "question_next_id" => NULL,
+        ]);
+        DB::table('responses')->insert([
+            "id" => 13,
+            "indicator" => "c",
+            "text" => "Mensual",
+            "response_true" => false,
+            "question_id" => 9,
+            "question_next_id" => NULL,
+        ]);
     }
 }
