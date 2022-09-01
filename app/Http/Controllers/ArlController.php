@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Arl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ArlController extends Controller
 {
+
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $arls = Arl::select(
+            'arls.*',
+        )
+            ->orderBy('arls.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $arls
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +32,8 @@ class ArlController extends Controller
     {
         $arls = Arl::all();
         return response()->json([
-            'res'=>true,
-            'data'=>$arls
+            'res' => true,
+            'data' => $arls
         ]);
     }
 
@@ -29,7 +45,21 @@ class ArlController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate name using the validator class
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $arl = Arl::create($request->all());
+        return response()->json([
+            'res' => true,
+            'message' => 'Arl creada correctamente',
+            'data' => $arl
+        ]);
     }
 
     /**
@@ -38,9 +68,19 @@ class ArlController extends Controller
      * @param  \App\Models\Arl  $arl
      * @return \Illuminate\Http\Response
      */
-    public function show(Arl $arl)
+    public function show(int $id)
     {
-        //
+        $arl = Arl::find($id);
+        if (!$arl) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Arl no encontrada'
+            ], 404);
+        }
+        return response()->json([
+            'res' => true,
+            'data' => $arl
+        ]);
     }
 
     /**
@@ -50,9 +90,28 @@ class ArlController extends Controller
      * @param  \App\Models\Arl  $arl
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Arl $arl)
+    public function update(Request $request, int $id)
     {
-        //
+        $arl = Arl::find($id);
+        if (!$arl) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Arl no encontrada',
+            ], 404);
+        }
+        //update the name of the arl and validate name using the validator class
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $arl->update($request->all());
+        return response()->json([
+            'res' => true,
+            'message' => 'Arl actualizado correctamente',
+            'data' => $arl
+        ]);
     }
 
     /**
@@ -61,8 +120,20 @@ class ArlController extends Controller
      * @param  \App\Models\Arl  $arl
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Arl $arl)
+    public function destroy(int $id)
     {
-        //
+        $arl = Arl::find($id);
+        if (!$arl) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Arl no encontrada',
+            ], 404);
+        }
+        $arl->delete();
+        return response()->json([
+            'res' => true,
+            'message' => 'Arl eliminado correctamente',
+            'data' => $arl
+        ]);
     }
 }

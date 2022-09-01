@@ -103,6 +103,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //House types
     Route::controller(HousingTypeController::class)->group(function () {
         Route::get('housing-types-list', 'index');
+        Route::get('housing-types-list-paginate', 'listPaginate');
+        Route::get('housing-types-detail/{id}', 'show');
+        Route::post('housing-types-register', 'store');
+        Route::put('housing-types-update/{id}', 'update');
+        Route::delete('housing-types-delete/{id}', 'destroy');
     });
     //Kindre
     Route::controller(KindredController::class)->group(function () {
@@ -111,6 +116,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Educatio level
     Route::controller(EducationLevelController::class)->group(function () {
         Route::get('education-level-list', 'index');
+        Route::get('education-level-list-paginated', 'listPaginate');
+        Route::get('education-level-detail/{id}', 'show');
+        Route::post('education-level-register', 'store');
+        Route::put('education-level-update/{id}', 'update');
+        Route::delete('education-level-delete/{id}', 'destroy');
     });
     //position
     Route::controller(PositionController::class)->group(function () {
@@ -132,10 +142,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //pension fund
     Route::controller(PensionFundController::class)->group(function () {
         Route::get('pension-fund-list', 'index');
+        Route::get('pension-fund-list-paginated', 'listPaginate');
+        Route::get('pension-fund-detail/{id}', 'show');
+        Route::post('pension-fund-register', 'store');
+        Route::put('pension-fund-update/{id}', 'update');
+        Route::delete('pension-fund-delete/{id}', 'destroy');
     });
     //pension fund
     Route::controller(ArlController::class)->group(function () {
         Route::get('arl-list', 'index');
+        Route::get('arl-list-paginate', 'listPaginate');
+        Route::post('arl-register', 'store');
+        Route::put('arl-update/{id}', 'update');
+        Route::delete('arl-delete/{id}', 'destroy');
+        Route::get('arl-detail/{id}', 'show');
     });
     //survey
     Route::controller(SurveyController::class)->group(function () {
@@ -146,6 +166,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(AreaController::class)->group(function () {
         Route::get('areas-list', 'index');
         Route::get('top-finding-for-area', 'topFindingForArea');
+        Route::get('areas-list-paginate', 'listPaginate');
+        Route::post('area-register', 'store');
+        Route::put('area-update/{id}', 'update');
+        Route::delete('area-delete/{id}', 'destroy');
+        Route::get('area-detail/{id}', 'show');
     });
     //Identification risk
     Route::controller(IdentificationHazardAndRiskController::class)->group(function () {
