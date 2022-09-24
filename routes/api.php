@@ -103,11 +103,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //House types
     Route::controller(HousingTypeController::class)->group(function () {
         Route::get('housing-types-list', 'index');
-        Route::get('housing-types-list-paginate', 'listPaginate');
-        Route::get('housing-types-detail/{id}', 'show');
-        Route::post('housing-types-register', 'store');
-        Route::put('housing-types-update/{id}', 'update');
-        Route::delete('housing-types-delete/{id}', 'destroy');
+        Route::get('housing-types-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::get('housing-types-detail/{id}', 'show')->middleware('super_admin');
+        Route::post('housing-types-register', 'store')->middleware('super_admin');
+        Route::put('housing-types-update/{id}', 'update')->middleware('super_admin');
+        Route::delete('housing-types-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Kindre
     Route::controller(KindredController::class)->group(function () {
@@ -116,11 +116,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Educatio level
     Route::controller(EducationLevelController::class)->group(function () {
         Route::get('education-level-list', 'index');
-        Route::get('education-level-list-paginated', 'listPaginate');
-        Route::get('education-level-detail/{id}', 'show');
-        Route::post('education-level-register', 'store');
-        Route::put('education-level-update/{id}', 'update');
-        Route::delete('education-level-delete/{id}', 'destroy');
+        Route::get('education-level-list-paginated', 'listPaginate')->middleware('super_admin')->middleware('super_admin');
+        Route::get('education-level-detail/{id}', 'show')->middleware('super_admin')->middleware('super_admin');
+        Route::post('education-level-register', 'store')->middleware('super_admin')->middleware('super_admin');
+        Route::put('education-level-update/{id}', 'update')->middleware('super_admin')->middleware('super_admin');
+        Route::delete('education-level-delete/{id}', 'destroy')->middleware('super_admin')->middleware('super_admin');
     });
     //position
     Route::controller(PositionController::class)->group(function () {
@@ -142,20 +142,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //pension fund
     Route::controller(PensionFundController::class)->group(function () {
         Route::get('pension-fund-list', 'index');
-        Route::get('pension-fund-list-paginated', 'listPaginate');
-        Route::get('pension-fund-detail/{id}', 'show');
-        Route::post('pension-fund-register', 'store');
-        Route::put('pension-fund-update/{id}', 'update');
-        Route::delete('pension-fund-delete/{id}', 'destroy');
+        Route::get('pension-fund-list-paginated', 'listPaginate')->middleware('super_admin');
+        Route::get('pension-fund-detail/{id}', 'show')->middleware('super_admin');
+        Route::post('pension-fund-register', 'store')->middleware('super_admin');
+        Route::put('pension-fund-update/{id}', 'update')->middleware('super_admin');
+        Route::delete('pension-fund-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //pension fund
     Route::controller(ArlController::class)->group(function () {
         Route::get('arl-list', 'index');
-        Route::get('arl-list-paginate', 'listPaginate');
-        Route::post('arl-register', 'store');
-        Route::put('arl-update/{id}', 'update');
-        Route::delete('arl-delete/{id}', 'destroy');
-        Route::get('arl-detail/{id}', 'show');
+        Route::get('arl-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('arl-register', 'store')->middleware('super_admin');
+        Route::put('arl-update/{id}', 'update')->middleware('super_admin');
+        Route::delete('arl-delete/{id}', 'destroy')->middleware('super_admin');
+        Route::get('arl-detail/{id}', 'show')->middleware('super_admin');
     });
     //survey
     Route::controller(SurveyController::class)->group(function () {
@@ -165,12 +165,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //area
     Route::controller(AreaController::class)->group(function () {
         Route::get('areas-list', 'index');
-        Route::get('top-finding-for-area', 'topFindingForArea');
-        Route::get('areas-list-paginate', 'listPaginate');
-        Route::post('area-register', 'store');
-        Route::put('area-update/{id}', 'update');
-        Route::delete('area-delete/{id}', 'destroy');
-        Route::get('area-detail/{id}', 'show');
+        Route::get('top-finding-for-area', 'topFindingForArea')->middleware('super_admin');
+        Route::get('areas-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('area-register', 'store')->middleware('super_admin');
+        Route::put('area-update/{id}', 'update')->middleware('super_admin');
+        Route::delete('area-delete/{id}', 'destroy')->middleware('super_admin');
+        Route::get('area-detail/{id}', 'show')->middleware('super_admin');
     });
     //Identification risk
     Route::controller(IdentificationHazardAndRiskController::class)->group(function () {
