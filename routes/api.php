@@ -96,9 +96,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Countries
     Route::controller(CountryController::class)->group(function () {
         Route::get('country-list', 'index');
-        Route::post('country-register', 'store');
-        Route::put('country-update/{id}', 'update');
-        Route::get('country-detail/{id}', 'show');
+        Route::get('country-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('country-register', 'store')->middleware('super_admin');
+        Route::put('country-update/{id}', 'update')->middleware('super_admin');
+        Route::get('country-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('country-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //House types
     Route::controller(HousingTypeController::class)->group(function () {

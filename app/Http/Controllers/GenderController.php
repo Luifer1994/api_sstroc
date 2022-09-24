@@ -2,11 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateGenderRequest;
 use App\Models\Gender;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller
 {
+
+    //lits all Genders paginated
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $gender = Gender::select(
+            'genders.*',
+        )
+            ->orderBy('genders.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $gender
+        ], 200);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +34,8 @@ class GenderController extends Controller
     {
         $genders = Gender::all();
         return response()->json([
-            'res'=>true,
-            'data'=>$genders
+            'res' => true,
+            'data' => $genders
         ]);
     }
 
@@ -27,9 +45,22 @@ class GenderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGenderRequest $request)
     {
-        //
+        $gender = Gender::create($request->all());
+        if (!empty($gender)) {
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $gender,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar el género',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -38,9 +69,20 @@ class GenderController extends Controller
      * @param  \App\Models\Gender  $gender
      * @return \Illuminate\Http\Response
      */
-    public function show(Gender $gender)
+    public function show(int $id)
     {
-        //
+        $gender = Gender::find($id);
+        if (!empty($gender)) {
+            return response()->json([
+                'res' => true,
+                'data' => $gender
+            ]);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
@@ -50,9 +92,28 @@ class GenderController extends Controller
      * @param  \App\Models\Gender  $gender
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gender $gender)
+    public function update(CreateGenderRequest $request, int $id)
     {
-        //
+        $gender = Gender::find($id);
+        if ($gender) {
+            if ($gender->fill($request->all())->save()) {
+                return response()->json([
+                    'res' => true,
+                    'data' => $gender
+                ]);
+            } else {
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al registrar el pais',
+                    'data' => null,
+                ], 400);
+            }
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ]);
+        }
     }
 
     /**
@@ -61,8 +122,19 @@ class GenderController extends Controller
      * @param  \App\Models\Gender  $gender
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gender $gender)
+    public function destroy(int $id)
     {
-        //
+        $gender = Gender::find($id);
+        if (!$gender) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Género no encontrada'
+            ], 404);
+        }
+        $gender->delete();
+        return response()->json([
+            'res' => true,
+            'message' => 'Género eliminado correctamente'
+        ]);
     }
 }

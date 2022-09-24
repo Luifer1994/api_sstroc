@@ -8,6 +8,21 @@ use App\Http\Requests\StoreCityRequest;
 
 class CityController extends Controller
 {
+    //lits all cities paginated
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $cities = City::select(
+            'cities.*',
+        )
+            ->orderBy('cities.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $cities
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -106,8 +121,19 @@ class CityController extends Controller
      * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy(int $id)
     {
-        //
+        $city = City::find($id);
+        if (!$city) {
+            return response()->json([
+                'res' => false,
+                'message' => 'Ciudad no encontrada'
+            ], 404);
+        }
+        $city->delete();
+        return response()->json([
+            'res' => true,
+            'message' => 'Ciudad eliminada correctamente'
+        ], 200);
     }
 }

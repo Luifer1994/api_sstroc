@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCountryRequest;
 class CountryController extends Controller
 {
+    //lits all countries paginated
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $countries = Country::select(
+            'countries.*',
+        )
+            ->orderBy('countries.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $countries
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -105,8 +120,26 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Country $country)
+    public function destroy(int $id)
     {
-        //
+        $country = Country::find($id);
+        if($country){
+            if($country->delete()){
+                return response()->json([
+                    'res' => true,
+                    'message' => 'Registro eliminado'
+                ],200);
+            }else{
+                return response()->json([
+                    'res' => false,
+                    'message' => 'Error al eliminar el pais'
+                ],400);
+            }
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => 'Not found'
+            ],404);
+        }
     }
 }
