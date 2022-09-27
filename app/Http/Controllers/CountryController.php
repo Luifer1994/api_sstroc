@@ -13,7 +13,7 @@ class CountryController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $countries = Country::select(
             'countries.*',
-        )
+        )->where('countries.name', 'like', '%'.$request["search"].'%')
             ->orderBy('countries.id', 'DESC')
             ->paginate($limit);
         return response()->json([

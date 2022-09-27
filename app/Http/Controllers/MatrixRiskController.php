@@ -19,6 +19,19 @@ class MatrixRiskController extends Controller
 
         $matrix = MatrixRisk::select('*')
             ->with(['area:id,name', 'position:id,name', 'process:id,name', 'risk:id,name,risks_type_id', 'risk.risk_type:id,name', 'task:id,name'])
+            ->whereHas('area', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })->orWhereHas('position', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })->orWhereHas('process', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })->orWhereHas('risk', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })->orWhereHas('risk.risk_type', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })->orWhereHas('task', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request["search"] . '%');
+            })
             ->withCount('evaluate_matrices')
             ->orderBy('id', 'DESC')
             ->paginate($limit);

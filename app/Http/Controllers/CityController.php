@@ -14,7 +14,8 @@ class CityController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $cities = City::select(
             'cities.*',
-        )
+        )->with(['country:id,name'])
+        ->where('cities.name', 'like', '%'.$request["search"].'%')
             ->orderBy('cities.id', 'DESC')
             ->paginate($limit);
         return response()->json([
@@ -97,7 +98,8 @@ class CityController extends Controller
             if($city->fill($request->all())->save()){
                 return response()->json([
                     'res' => true,
-                    'data' => $city
+                    'data' => $city,
+                    'message' => 'Actualizado correctamente'
                 ]);
             }else{
                 return response()->json([

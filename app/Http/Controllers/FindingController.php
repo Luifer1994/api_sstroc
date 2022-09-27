@@ -34,7 +34,7 @@ class FindingController extends Controller
         try {
             $limit = $request["limit"] ?? $limit = 10;
 
-            $findings = $this->findingRepositorie->all($limit);
+            $findings = $this->findingRepositorie->all($limit, $request["search"]);
 
             return response()->json([
                 'res' => true,

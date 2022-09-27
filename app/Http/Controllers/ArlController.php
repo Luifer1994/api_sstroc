@@ -14,7 +14,7 @@ class ArlController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $arls = Arl::select(
             'arls.*',
-        )
+        )->where('arls.name', 'like', '%'.$request["search"].'%')
             ->orderBy('arls.id', 'DESC')
             ->paginate($limit);
         return response()->json([

@@ -15,7 +15,7 @@ class EducationLevelController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $educationLevels = EducationLevel::select(
             'education_levels.*',
-        )
+        )->where('education_levels.name', 'like', '%'.$request["search"].'%')
             ->orderBy('education_levels.id', 'DESC')
             ->paginate($limit);
         return response()->json([

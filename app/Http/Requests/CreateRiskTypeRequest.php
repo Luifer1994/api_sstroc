@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreCityRequest extends FormRequest
+class CreateRiskTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,7 @@ class StoreCityRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required',
-            'country_id'        => 'required|exists:countries,id',
+            'name' => 'required|string|max:255'
         ];
     }
 

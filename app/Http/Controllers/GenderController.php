@@ -16,6 +16,7 @@ class GenderController extends Controller
         $gender = Gender::select(
             'genders.*',
         )
+        ->where('genders.name', 'like', '%'.$request["search"].'%')
             ->orderBy('genders.id', 'DESC')
             ->paginate($limit);
         return response()->json([

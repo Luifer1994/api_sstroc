@@ -16,9 +16,10 @@ class FindingRepositorie extends BaseRepositorie
         parent::__construct($finding, self::RELATIONSHIP);
     }
 
-    public function all(int $limit)
+    public function all(int $limit, $search)
     {
         return $this->model::select('*')
+        ->where('description', 'like', '%'.$search.'%')
             ->with('user.employee', 'area', 'image_findings')
             ->withCount('tracings')
             ->orderBy('findings.id', 'DESC')

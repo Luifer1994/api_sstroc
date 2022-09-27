@@ -24,7 +24,7 @@ class UserController extends Controller
             'type_documents.name as document_type',
             'genders.name as gender',
             'rols.name as rol',
-        )
+        )->where('employees.name', 'like', '%'.$request["search"].'%')
             ->leftJoin('employees', 'employees.id', '=', 'users.employee_id')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')

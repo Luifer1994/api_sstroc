@@ -2,11 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTypeContracRequest;
 use App\Models\TypeContract;
 use Illuminate\Http\Request;
 
 class TypeContractController extends Controller
 {
+    //list paginated risk types
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $TypeContract = TypeContract::select(
+            'type_contracts.*',
+        )->where('type_contracts.name', 'like', '%'.$request["search"].'%')
+            ->orderBy('type_contracts.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $TypeContract
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +32,8 @@ class TypeContractController extends Controller
     {
         $type_contracts = TypeContract::all();
         return response()->json([
-            'res'=>true,
-            'data'=>$type_contracts
+            'res' => true,
+            'data' => $type_contracts
         ]);
     }
 
@@ -27,9 +43,22 @@ class TypeContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTypeContracRequest $request)
     {
-        //
+        $type_contract = TypeContract::create($request->all());
+        if (!empty($type_contract)) {
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $type_contract,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar el tipo de contrato',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -38,9 +67,21 @@ class TypeContractController extends Controller
      * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function show(TypeContract $typeContract)
+    public function show(int $id)
     {
-        //
+        $type_contract = TypeContract::find($id);
+        if (!empty($type_contract)) {
+            return response()->json([
+                'res' => true,
+                'data' => $type_contract
+            ]);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el tipo de contrato',
+                'data' => null
+            ], 404);
+        }
     }
 
     /**
@@ -50,9 +91,23 @@ class TypeContractController extends Controller
      * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TypeContract $typeContract)
+    public function update(CreateTypeContracRequest $request, int $id)
     {
-        //
+        $type_contract = TypeContract::find($id);
+        if (!empty($type_contract)) {
+            $type_contract->update($request->all());
+            return response()->json([
+                'res' => true,
+                'message' => 'Actualización exitosa',
+                'data' => $type_contract
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el tipo de contrato',
+                'data' => null
+            ], 404);
+        }
     }
 
     /**
@@ -61,8 +116,22 @@ class TypeContractController extends Controller
      * @param  \App\Models\TypeContract  $typeContract
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeContract $typeContract)
+    public function destroy(int $id)
     {
-        //
+        $type_contract = TypeContract::find($id);
+        if (!empty($type_contract)) {
+            $type_contract->delete();
+            return response()->json([
+                'res' => true,
+                'message' => 'Eliminación exitosa',
+                'data' => $type_contract
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el tipo de contrato',
+                'data' => null
+            ], 404);
+        }
     }
 }

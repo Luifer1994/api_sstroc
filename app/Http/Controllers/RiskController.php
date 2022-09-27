@@ -2,11 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRiskRequest;
 use App\Models\Risk;
 use Illuminate\Http\Request;
 
 class RiskController extends Controller
 {
+
+    //list paginated risk types
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $Risks = Risk::select(
+            'risks.*',
+        )->where('risks.name', 'like', '%'.$request["search"].'%')
+        ->with('risk_type')
+            ->orderBy('risks.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $Risks
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +45,22 @@ class RiskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRiskRequest $request)
     {
-        //
+        $risk = Risk::create($request->all());
+        if (!empty($risk)) {
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $risk,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar el riesgo',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -38,9 +69,22 @@ class RiskController extends Controller
      * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function show(Risk $risk)
+    public function show(int $id)
     {
-        //
+        $risk = Risk::find($id);
+        if (!empty($risk)) {
+            return response()->json([
+                'res' => true,
+                'message' => 'ok',
+                'data' => $risk
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontró el riesgo',
+                'data' => null
+            ], 404);
+        }
     }
 
     /**
@@ -50,9 +94,23 @@ class RiskController extends Controller
      * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Risk $risk)
+    public function update(CreateRiskRequest $request, int $id)
     {
-        //
+        $risk = Risk::find($id);
+        if (!empty($risk)) {
+            $risk->update($request->all());
+            return response()->json([
+                'res' => true,
+                'message' => 'Actualización exitosa',
+                'data' => $risk
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontró el riesgo',
+                'data' => null
+            ], 404);
+        }
     }
 
     /**
@@ -61,8 +119,22 @@ class RiskController extends Controller
      * @param  \App\Models\Risk  $risk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Risk $risk)
+    public function destroy(int $id)
     {
-        //
+        $risk = Risk::find($id);
+        if (!empty($risk)) {
+            $risk->delete();
+            return response()->json([
+                'res' => true,
+                'message' => 'Eliminación exitosa',
+                'data' => null
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontró el riesgo',
+                'data' => null
+            ], 404);
+        }
     }
 }

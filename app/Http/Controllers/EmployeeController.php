@@ -28,7 +28,7 @@ class EmployeeController extends Controller
             'employees.*',
             'type_documents.name as document_type',
             'genders.name as gender',
-        )
+        )->where('employees.name', 'like', '%'.$request["search"].'%')
             ->withCount('questions')
             ->join('type_documents', 'type_documents.id', '=', 'employees.type_document_id')
             ->join('genders', 'genders.id', '=', 'employees.gender_id')

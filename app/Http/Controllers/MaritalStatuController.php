@@ -2,11 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMaritalStatusrequest;
 use App\Models\MaritalStatus;
 use Illuminate\Http\Request;
 
 class MaritalStatuController extends Controller
 {
+    //list paginated MaritalStatus
+    public function listPaginate(Request $request)
+    {
+        $limit = $request["limit"] ?? $limit = 10;
+        $MaritalStatus = MaritalStatus::select(
+            'marital_status.*',
+        )->where('marital_status.name', 'like', '%'.$request["search"].'%')
+            ->orderBy('marital_status.id', 'DESC')
+            ->paginate($limit);
+        return response()->json([
+            'res' => true,
+            'message' => 'ok',
+            'data' => $MaritalStatus
+        ], 200);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +43,22 @@ class MaritalStatuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMaritalStatusrequest $request)
     {
-        //
+        $marital_status = MaritalStatus::create($request->all());
+        if(!empty($marital_status)){
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso',
+                'data' => $marital_status,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Error al registrar el estado civil',
+                'data' => null,
+            ], 400);
+        }
     }
 
     /**
@@ -38,9 +67,22 @@ class MaritalStatuController extends Controller
      * @param  \App\Models\MaritalStatu  $maritalStatu
      * @return \Illuminate\Http\Response
      */
-    public function show(MaritalStatu $maritalStatu)
+    public function show(int $id)
     {
-        //
+        $marital_status = MaritalStatus::find($id);
+        if(!empty($marital_status)){
+            return response()->json([
+                'res' => true,
+                'message' => 'ok',
+                'data' => $marital_status,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el estado civil',
+                'data' => null,
+            ], 404);
+        }
     }
 
     /**
@@ -50,9 +92,23 @@ class MaritalStatuController extends Controller
      * @param  \App\Models\MaritalStatu  $maritalStatu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaritalStatu $maritalStatu)
+    public function update(CreateMaritalStatusrequest $request, int $id)
     {
-        //
+        $marital_status = MaritalStatus::find($id);
+        if(!empty($marital_status)){
+            $marital_status->update($request->all());
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro actualizado',
+                'data' => $marital_status,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el estado civil',
+                'data' => null,
+            ], 404);
+        }
     }
 
     /**
@@ -61,8 +117,22 @@ class MaritalStatuController extends Controller
      * @param  \App\Models\MaritalStatu  $maritalStatu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaritalStatu $maritalStatu)
+    public function destroy(int $id)
     {
-        //
+        $marital_status = MaritalStatus::find($id);
+        if(!empty($marital_status)){
+            $marital_status->delete();
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro eliminado',
+                'data' => $marital_status,
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'No se encontro el estado civil',
+                'data' => null,
+            ], 404);
+        }
     }
 }

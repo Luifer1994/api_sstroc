@@ -14,7 +14,7 @@ class AreaController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $areas = Area::select(
             'areas.*',
-        )
+        ) ->where('areas.name', 'like', '%'.$request["search"].'%')
             ->orderBy('areas.id', 'DESC')
             ->paginate($limit);
         return response()->json([

@@ -14,7 +14,7 @@ class PensionFundController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $pension_funds = PensionFund::select(
             'pension_funds.*',
-        )
+        ) ->where('pension_funds.name', 'like', '%'.$request["search"].'%')
             ->orderBy('pension_funds.id', 'DESC')
             ->paginate($limit);
         return response()->json([

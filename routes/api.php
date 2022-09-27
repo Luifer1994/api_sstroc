@@ -77,6 +77,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Document type
     Route::controller(TypeDocumentController::class)->group(function () {
         Route::get('document-type-list', 'index');
+        Route::get('document-type-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('document-type-register', 'store')->middleware('super_admin');
+        Route::put('document-type-update/{id}', 'update')->middleware('super_admin');
+        Route::get('document-type-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('document-type-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Document type
     Route::controller(RolController::class)->group(function () {
@@ -89,9 +94,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //City
     Route::controller(CityController::class)->group(function () {
         Route::get('city-list', 'index');
-        Route::post('city-register', 'store');
-        Route::put('city-update/{id}', 'update');
-        Route::get('city-detail/{id}', 'show');
+        Route::get('city-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('city-register', 'store')->middleware('super_admin');
+        Route::put('city-update/{id}', 'update')->middleware('super_admin');
+        Route::get('city-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('city-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Countries
     Route::controller(CountryController::class)->group(function () {
@@ -114,6 +121,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Kindre
     Route::controller(KindredController::class)->group(function () {
         Route::get('kindred-list', 'index');
+        Route::get('kindred-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('kindred-register', 'store')->middleware('super_admin');
+        Route::put('kindred-update/{id}', 'update')->middleware('super_admin');
+        Route::get('kindred-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('kindred-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Educatio level
     Route::controller(EducationLevelController::class)->group(function () {
@@ -128,10 +140,22 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(PositionController::class)->group(function () {
         Route::get('position-list', 'index');
         Route::get('process-by-position/{position_id}', 'listProcessByPosition');
+        Route::get('position-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('position-register', 'store')->middleware('super_admin');
+        Route::put('position-update/{id}', 'update')->middleware('super_admin');
+        Route::get('position-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('position-delete/{id}', 'destroy')->middleware('super_admin');
+        Route::post('position-register-process', 'addProcessToPosition')->middleware('super_admin');
     });
     //type contract
     Route::controller(TypeContractController::class)->group(function () {
         Route::get('type-contract-list', 'index');
+        Route::get('type-contract-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('type-contract-register', 'store')->middleware('super_admin');
+        Route::put('type-contract-update/{id}', 'update')->middleware('super_admin');
+        Route::get('type-contract-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('type-contract-delete/{id}', 'destroy')->middleware('super_admin');
+        Route::post('type-contract-register-process', 'addProcessToPosition')->middleware('super_admin');
     });
     //Social security
     Route::controller(SocialSecurityController::class)->group(function () {
@@ -140,6 +164,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Marital status
     Route::controller(MaritalStatuController::class)->group(function () {
         Route::get('marital-status-list', 'index');
+        Route::get('marital-status-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('marital-status-register', 'store')->middleware('super_admin');
+        Route::put('marital-status-update/{id}', 'update')->middleware('super_admin');
+        Route::get('marital-status-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('marital-status-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //pension fund
     Route::controller(PensionFundController::class)->group(function () {
@@ -192,14 +221,38 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Risk
     Route::controller(RiskController::class)->group(function () {
         Route::get('risk-list', 'index');
+        Route::get('risk-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('risk-register', 'store')->middleware('super_admin');
+        Route::put('risk-update/{id}', 'update')->middleware('super_admin');
+        Route::get('risk-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('risk-delete/{id}', 'destroy')->middleware('super_admin');
+    });
+    //Risk type
+    Route::controller(RiskTypeController::class)->group(function () {
+        Route::get('risk-type-list', 'index');
+        Route::get('risk-type-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('risk-type-register', 'store')->middleware('super_admin');
+        Route::put('risk-type-update/{id}', 'update')->middleware('super_admin');
+        Route::get('risk-type-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('risk-type-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Tasks
     Route::controller(TaskController::class)->group(function () {
         Route::get('task-list', 'index');
+        Route::get('task-list-paginate', 'listPaginate')->middleware('super_admin');
+        Route::post('task-register', 'store')->middleware('super_admin');
+        Route::put('task-update/{id}', 'update')->middleware('super_admin');
+        Route::get('task-detail/{id}', 'show')->middleware('super_admin');
+        Route::delete('task-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Process
-    Route::controller(ProcessController::class)->group(function () {
+    Route::controller(ProcesseController::class)->group(function () {
         Route::get('process-list', 'index');
+        Route::get('process-list-paginated', 'listPaginate')->middleware('super_admin');
+        Route::get('process-detail/{id}', 'show')->middleware('super_admin');
+        Route::post('process-register', 'store')->middleware('super_admin');
+        Route::put('process-update/{id}', 'update')->middleware('super_admin');
+        Route::delete('process-delete/{id}', 'destroy')->middleware('super_admin');
     });
     //Events
     Route::controller(EventController::class)->group(function () {

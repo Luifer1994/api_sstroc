@@ -52,4 +52,9 @@ class Position extends Model
 					->withPivot('id')
 					->withTimestamps();
 	}
+
+    public function proccesses()
+	{
+		return $this->hasMany(PositionsProcess::class)->with('process');
+	}
 }

@@ -15,6 +15,7 @@ class HousingTypeController extends Controller
         $housingTypes = HousingType::select(
             'housing_types.*',
         )
+        ->where('housing_types.name', 'like', '%'.$request["search"].'%')
             ->orderBy('housing_types.id', 'DESC')
             ->paginate($limit);
         return response()->json([

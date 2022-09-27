@@ -20,6 +20,7 @@ class DocumentController extends Controller
         $limit = $request["limit"] ?? $limit = 10;
         $documents = Document::select('id', 'title', 'description', 'url','extension', 'created_at')
             //->with('user:id,name')
+            ->where('title', 'like', '%'.$request["search"].'%')
             ->orderBy('id', 'DESC')
             ->paginate($limit);
         return response()->json([
